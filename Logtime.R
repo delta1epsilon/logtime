@@ -3,7 +3,10 @@
 #' 
 #' @param msg A message to print in log
 OnStart <- function (msg) {
-    cat('Start', msg, '\n')
+    options(digits.secs = 3)
+    time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
+    
+    cat(time, 'Start', msg, '\n')
     start_time <<- Sys.time()
 }
 
@@ -13,7 +16,10 @@ OnStart <- function (msg) {
 #'
 #' @param msg A message to print in log
 OnEnd <- function (msg) {
-    cat('End', msg, '\n')
+    options(digits.secs = 3)
+    time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
+
+    cat(time, 'End', msg, '\n')
     exec_time <- Sys.time() - start_time
     cat('Done by', exec_time, '\n')
 }
