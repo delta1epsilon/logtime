@@ -3,7 +3,7 @@
 #' @param lhs A function call 
 #' @param rhs An expression
 `%<%` <- function (lhs, rhs) {
-    # the parent environment
+    # the calling environment
     parent <- parent.frame()
     
     # the environment in which to evaluate pipeline
