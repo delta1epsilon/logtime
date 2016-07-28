@@ -3,11 +3,14 @@
 #' 
 #' @param msg A message to print in log
 OnStart <- function (msg) {
-    options(digits.secs = 3)
+    options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
     
-    cat(time, 'Start', msg, '\n')
-    start_time <<- Sys.time()
+    # print log message
+    cat(time, '[Start]', paste0('[', msg, ']'), sep = ' - ', fill = TRUE)
+
+    # save start time of execution to .RTiming  environment
+    assign('start_time', Sys.time(), envir = .RTiming)
 }
 
 
@@ -16,12 +19,26 @@ OnStart <- function (msg) {
 #'
 #' @param msg A message to print in log
 OnEnd <- function (msg) {
-    options(digits.secs = 3)
-    time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
+    end_time <- Sys.time()
 
-    cat(time, 'End', msg, '\n')
-    exec_time <- Sys.time() - start_time
-    cat('Done by', exec_time, '\n')
+    options(digits.secs = 1)
+    time <- format(end_time, format = '%Y-%m-%d %H:%M:%OS')
+
+    # fetch start time of execurion
+    start_time <- get('start_time', envir = .RTiming)
+    
+    # calculate execution time
+    exec_time_sec <- difftime(end_time, start_time, units = 'secs')
+    exec_time_min <- round(exec_time_sec / 60, 2)
+
+    # execution time message
+    exec_time_msg <- 
+        paste0('[Done by ', round(exec_time_sec, 2), 
+               ' sec. ', '(', exec_time_min, ' min.',')', ']'
+               )
+
+    # print log message
+    cat(time, '[End]', paste0('[', msg, ']'), exec_time_msg, sep = ' - ', fill = TRUE)
 }
 
 
