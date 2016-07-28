@@ -2,6 +2,9 @@
 #'
 #' @param lhs A function call 
 #' @param rhs An expression
+#'
+#' @rdname pipe
+#' @export
 `%<%` <- function (lhs, rhs) {
     # the calling environment
     parent <- parent.frame()
