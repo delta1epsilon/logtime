@@ -42,5 +42,7 @@ OnEnd <- function (msg) {
 }
 
 
-# Track time of code execution
+#' Track time of code execution
+#'
+#' @export
 Logtime <- ContextManager(start = OnStart, end = OnEnd)
