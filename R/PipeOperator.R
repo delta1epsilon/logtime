@@ -1,6 +1,6 @@
-#' Pipe operator
+#' Pipe operator for Context Manager
 #'
-#' @param lhs A function call 
+#' @param lhs A function call which first argument is expression
 #' @param rhs An expression
 #'
 #' @rdname pipe
@@ -16,18 +16,12 @@
     
     # get expression
     expr <- function_call$rhs
-    # print('--- expr')
-    # print(expr)
     
     # get left function name
     func <- as.character(function_call$lhs)[1]
-    # print('--- func')
-    # print(func)
     
     # get left function arguments
     args <- as.character(function_call$lhs)[2]
-    # print('--- args')
-    # print(args)
     
     # run expression
     eval(do.call(func, list(expr, args)), envir = env)
