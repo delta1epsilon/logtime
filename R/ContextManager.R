@@ -1,3 +1,30 @@
+#' Check if return result
+#'
+#' Check if a result from expression execution has to be returned 
+#'
+#' @param expr An expression
+#' @result TRUE if return / FALSE if dont 
+#'
+CheckIfReturnExpr <- function (expr) {
+    expr <- as.character(expr)
+    
+    # split by lines
+    expr <- unlist(strsplit(expr, split = '\n'))
+
+    len <- length(expr)
+
+    # TODO: add check for =
+
+    if (expr[len] == '}') {
+        is_assign <- grepl('<-', expr[len - 1])        
+    } else {
+        is_assign <- grepl('<-', expr[len])
+    }
+    
+    return(!is_assign)
+}
+
+
 #' Create a Context Manager
 #'
 #' @param start A function to be executed on start
@@ -14,8 +41,14 @@ ContextManager <- function (start = function () {},
         # execute a function on exit
         on.exit(end(...))
         
+        return_result <- CheckIfReturnExpr(expr)
+
         # Evaluate the expression
-        eval(expr)
+        result <- eval(expr)
+
+        if (return_result) {
+            return(result)
+        }
     }
 }
 
