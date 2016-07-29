@@ -44,5 +44,24 @@ OnEnd <- function (msg) {
 
 #' Track time of code execution
 #'
+#' Time your code in easy, efficient and nice looking way
+#'
+#' @usage Logtime(message) \%<\% \{
+#'    expression
+#' \}
+#'
+#' @param message A string describing context of code 
+#' 
+#' @return Prints 2 log messages with start, end of code execution and prints time of code execution  
+#' 
+#' @examples 
+#' Logtime('Generate random numbers') %<% {
+#'      rnorm(10000) 
+#' }
+#' 
+#' # output:
+#' #
+#'
+#'
 #' @export
 Logtime <- ContextManager(start = OnStart, end = OnEnd)
