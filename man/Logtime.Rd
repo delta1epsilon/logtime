@@ -4,9 +4,27 @@
 \alias{Logtime}
 \title{Track time of code execution}
 \usage{
-Logtime(expr, ...)
+Logtime(message) \%<\% \{
+   expression
+\}
+}
+\arguments{
+\item{message}{A string describing context of code}
+}
+\value{
+Prints 2 log messages with start, end of code execution and prints time of code execution
 }
 \description{
-Track time of code execution
+Time your code in easy, efficient and nice looking way
+}
+\examples{
+Logtime('Generate random numbers') \%<\% {
+     rnorm(10000) 
+}
+
+# output:
+#
+
+
 }
 

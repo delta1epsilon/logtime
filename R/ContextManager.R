@@ -18,3 +18,5 @@ ContextManager <- function (start = function () {},
         eval(expr)
     }
 }
+
+# TODO: think about an output of Logtime when return is not specified
