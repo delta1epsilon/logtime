@@ -52,16 +52,16 @@ OnEnd <- function (msg) {
 #'
 #' @param message A string describing context of code 
 #' 
-#' @return Prints 2 log messages with start, end of code execution and prints time of code execution  
+#' @return Prints 2 log messages with start, end of code execution and time of code execution  
 #' 
 #' @examples 
-#' Logtime('Generate random numbers') %<% {
-#'      rnorm(10000) 
+#' gauss_random <- Logtime('Generate random numbers') %<% {
+#'      rnorm(10000000) 
 #' }
 #' 
-#' # output:
-#' #
-#'
+#' # prints:
+#' # 2016-07-29 18:04:15.4 - [Start] - [Generate random numbers]
+#' # 2016-07-29 18:04:18.9 - [End] - [Generate random numbers] - [Done by 3.48 sec. (0.06 min.)]
 #'
 #' @export
 Logtime <- ContextManager(start = OnStart, end = OnEnd)

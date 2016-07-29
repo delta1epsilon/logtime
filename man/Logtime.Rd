@@ -12,19 +12,19 @@ Logtime(message) \%<\% \{
 \item{message}{A string describing context of code}
 }
 \value{
-Prints 2 log messages with start, end of code execution and prints time of code execution
+Prints 2 log messages with start, end of code execution and time of code execution
 }
 \description{
 Time your code in easy, efficient and nice looking way
 }
 \examples{
-Logtime('Generate random numbers') \%<\% {
-     rnorm(10000) 
+gauss_random <- Logtime('Generate random numbers') \%<\% {
+     rnorm(10000000) 
 }
 
-# output:
-#
-
+# prints:
+# 2016-07-29 18:04:15.4 - [Start] - [Generate random numbers]
+# 2016-07-29 18:04:18.9 - [End] - [Generate random numbers] - [Done by 3.48 sec. (0.06 min.)]
 
 }
 

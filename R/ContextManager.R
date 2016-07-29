@@ -20,3 +20,4 @@ ContextManager <- function (start = function () {},
 }
 
 # TODO: think about an output of Logtime when return is not specified
+# TODO: think about execution of end method when there is ERROR in expr execution
