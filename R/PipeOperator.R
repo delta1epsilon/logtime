@@ -16,13 +16,18 @@
     
     # get expression
     expr <- as.expression(func_call$rhs)
+    return_result <- CheckIfReturnExpr(expr)
 
     # get left function name
-    func <- as.character(func_call$lhs)[1]
-    
+    func <- as.character(func_call$lhs)[1]    
+
     # get left function arguments
     args <- as.character(func_call$lhs)[2]
     
     # run expression
-    eval(do.call(func, list(expr, args)), envir = env)
+    result <- eval(do.call(func, list(expr, args)), envir = env)
+
+    if (return_result) {
+        return(result)
+    }
 }
