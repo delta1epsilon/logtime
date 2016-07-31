@@ -2,16 +2,16 @@
 % Please edit documentation in R/PipeOperator.R
 \name{\%<\%}
 \alias{\%<\%}
-\title{Pipe operator}
+\title{Pipe operator for Context Manager}
 \usage{
 lhs \%<\% rhs
 }
 \arguments{
-\item{lhs}{A function call}
+\item{lhs}{A function call which first argument is expression}
 
 \item{rhs}{An expression}
 }
 \description{
-Pipe operator
+Pipe operator for Context Manager
 }
 
