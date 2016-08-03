@@ -6,26 +6,20 @@
 #' @rdname pipe
 #' @export
 `%<%` <- function (lhs, rhs) {
-    # the calling environment
-    parent <- parent.frame()
-    
-    # the environment in which to evaluate pipeline
-    env <- new.env(parent = parent)
-    
     func_call <- match.call()
     
     # get expression
-    expr <- as.expression(func_call$rhs)
-    return_result <- CheckIfReturnExpr(expr)
+    .ExecutionEnv$expr <- as.expression(func_call$rhs)
+    return_result <- CheckIfReturnExpr(.ExecutionEnv$expr)
 
     # get left function name
-    func <- as.character(func_call$lhs)[1]    
+    .ExecutionEnv$func <- as.character(func_call$lhs)[1]    
 
     # get left function arguments
-    args <- as.character(func_call$lhs)[2]
+    .ExecutionEnv$args <- as.character(func_call$lhs)[2]
     
     # run expression
-    result <- eval(do.call(func, list(expr, args)), envir = env)
+    result <- evalq(do.call(func, list(expr, args)), envir = .ExecutionEnv)
 
     if (return_result) {
         return(result)

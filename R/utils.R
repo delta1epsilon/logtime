@@ -1,6 +1,9 @@
 # create environment for the package use
 .RTiming <- new.env()
 
+# create environment for expressions execution
+.ExecutionEnv <- new.env()
+
 #' Check if return result
 #'
 #' Check if a result from expression execution has to be returned
