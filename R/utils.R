@@ -2,7 +2,7 @@
 .RTiming <- new.env()
 
 # create environment for expressions execution
-.ExecutionEnv <- new.env()
+# .ExecutionEnv <- new.env()
 
 #' Check if return result
 #'
