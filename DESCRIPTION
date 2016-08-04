@@ -8,3 +8,4 @@ Description: The package provides possibility of code timing in nice looking and
 License: file license
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Suggests: testthat
