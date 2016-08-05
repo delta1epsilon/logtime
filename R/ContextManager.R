@@ -7,20 +7,12 @@
 ContextManager <- function (start = function () {}, 
                             end = function () {}
                             ) {
-    function (expr, env = parent.frame(), ...) {
-        # parent <- parent.frame()
-
-        # print('Parent:')
-        # print(parent)
-
-        # print('Parent of parent:')
-        # print(parent.env(parent))
-
+    function (expr, env = parent.frame(), message) {
         # execute a function on start
-        start(...)
+        start(message)
 
         # execute a function on exit
-        on.exit(end(...))
+        on.exit(end(message))
 
         # Evaluate the expression
         eval(expr, envir = env)

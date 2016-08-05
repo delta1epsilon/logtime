@@ -6,6 +6,7 @@
 #' @rdname pipe
 #' @export
 `%<%` <- function (lhs, rhs) {
+    # get calling environment
     parent <- parent.frame()
 
     func_call <- match.call()
@@ -18,12 +19,12 @@
     func <- as.character(func_call$lhs)[1]    
 
     # get left function arguments
-    args <- as.character(func_call$lhs)[2]
+    message <- as.character(func_call$lhs)[2]  # A bug here with message as variable
     
     # run expression
-    result <- eval(do.call(func, list(expr, parent, args)), 
-                    envir = parent
-                    )
+    result <- eval(do.call(func, list(expr, parent, message)), 
+                   envir = parent
+                   )
 
     if (return_result) {
         return(result)
