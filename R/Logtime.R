@@ -6,11 +6,13 @@ OnStart <- function (msg) {
     options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
     
-    # print log message
-    cat(time, '[Start]', paste0('[', msg, ']'), sep = ' - ', fill = TRUE)
-
     # save start time of execution to .RTiming  environment
-    assign('start_time', Sys.time(), envir = .RTiming)
+    # and get indentation level
+    indentation_level <- SetStartTime()
+
+    # print log message
+    indent_string <- paste(rep(' ', indentation_level), collapse = ' ')
+    cat(indent_string, time, '[Start]', paste0('[', msg, ']'), sep = ' - ', fill = TRUE)
 }
 
 
@@ -25,8 +27,11 @@ OnEnd <- function (msg) {
     time <- format(end_time, format = '%Y-%m-%d %H:%M:%OS')
 
     # fetch start time of execurion
-    start_time <- get('start_time', envir = .RTiming)
-    
+    # and indentation level
+    time_indentation <- GetAndRemoveStartTime()
+    start_time <- time_indentation$start_time
+    indentation_level <- time_indentation$indentation
+
     # calculate execution time
     exec_time_sec <- difftime(end_time, start_time, units = 'secs')
     exec_time_min <- round(exec_time_sec / 60, 2)
@@ -38,7 +43,8 @@ OnEnd <- function (msg) {
                )
 
     # print log message
-    cat(time, '[End]', paste0('[', msg, ']'), exec_time_msg, sep = ' - ', fill = TRUE)
+    indent_string <- paste(rep(' ', indentation_level), collapse = ' ')
+    cat(indent_string, time, '[End]', paste0('[', msg, ']'), exec_time_msg, sep = ' - ', fill = TRUE)
 }
 
 
