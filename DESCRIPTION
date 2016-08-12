@@ -2,9 +2,11 @@ Package: RTiming
 Type: Package
 Title: Time your code
 Version: 0.1.0
-Author: Ihor Kovalyshyn
-Maintainer: Ihor Kovalyshyn <ihorko.kovalyshyn@gmail.com>
-Description: The package provides possibility of code timing in nice looking and efficient way. Idea of creating the package was taken from python context manager.
+Authors@R: c(
+    person("Ihor", "Kovalyshyn", , "ihorko.kovalyshyn@gmail.com", role = c("aut", "cre")),
+    person("Andriy", "Muzychuk", , "amuzychuk@gmail.com", role = "aut")
+    )
+Description: The package provides possibility of code timing in nice looking and efficient way.
 License: file license
 LazyData: TRUE
 RoxygenNote: 5.0.1
