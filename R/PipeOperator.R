@@ -10,19 +10,24 @@
     parent <- parent.frame()
 
     func_call <- match.call()
-    
+
     # get expression
     expr <- as.expression(func_call$rhs)
     return_result <- CheckIfReturnExpr(expr)
 
+    print(func_call$lhs)
     # get left function name
-    func <- as.character(func_call$lhs)[1]    
+    func <- as.list(func_call$lhs)[[1]]
 
     # get left function arguments
-    message <- as.character(func_call$lhs)[2]  # A bug here with message as variable
-    
+    message <- as.list(func_call$lhs)[[2]]  # A bug here with message as variable
+
+    if (is.name(message)) {
+        message <- eval(message, envir = parent.frame())
+    }
+    print(message)
     # run expression
-    result <- eval(do.call(func, list(expr, parent, message)), 
+    result <- eval(do.call(func, list(expr, parent, message)),
                    envir = parent
                    )
 
