@@ -3,8 +3,8 @@ Type: Package
 Title: Time your code
 Version: 0.1.0
 Authors@R: c(
-    person("Ihor", "Kovalyshyn", "ihorko.kovalyshyn@gmail.com", role = c("aut", "cre")),
-    person("Andriy", "Muzychuk", "amuzychuk@gmail.com", role = "aut")
+    person("Ihor", "Kovalyshyn", role = c("aut", "cre"), email = "ihorko.kovalyshyn@gmail.com"),
+    person("Andriy", "Muzychuk", role = "aut", email = "amuzychuk@gmail.com")
     )
 Description: The package provides possibility of code timing in nice looking and efficient way.
 License: file license
