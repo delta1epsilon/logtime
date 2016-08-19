@@ -15,7 +15,7 @@ ContextManager <- function (start = function () {},
         on.exit(end(message))
 
         # Evaluate the expression
-        eval(expr, envir = env)
+        output <- eval(expr, envir = env)
     }
 }
 

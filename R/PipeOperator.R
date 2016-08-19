@@ -13,7 +13,6 @@
     
     # get expression
     expr <- as.expression(func_call$rhs)
-    return_result <- CheckIfReturnExpr(expr)
 
     # get left function name
     func <- as.character(func_call$lhs)[1]    
@@ -22,11 +21,7 @@
     message <- as.character(func_call$lhs)[2]  # A bug here with message as variable
     
     # run expression
-    result <- eval(do.call(func, list(expr, parent, message)), 
+    output <- eval(do.call(func, list(expr, parent, message)), 
                    envir = parent
                    )
-
-    if (return_result) {
-        return(result)
-    }
 }
