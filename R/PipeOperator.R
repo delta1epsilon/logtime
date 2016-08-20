@@ -15,17 +15,16 @@
     expr <- as.expression(func_call$rhs)
     return_result <- CheckIfReturnExpr(expr)
 
-    print(func_call$lhs)
     # get left function name
-    func <- as.list(func_call$lhs)[[1]]
+    func <- as.character(func_call$lhs)[1]
 
     # get left function arguments
-    message <- as.list(func_call$lhs)[[2]]  # A bug here with message as variable
+    message <- as.list(func_call$lhs)[[2]]
 
     if (is.name(message)) {
-        message <- eval(message, envir = parent.frame())
+        message <- eval(message, envir = parent)
     }
-    print(message)
+
     # run expression
     result <- eval(do.call(func, list(expr, parent, message)),
                    envir = parent
