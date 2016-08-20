@@ -21,7 +21,7 @@
     # get left function arguments
     message <- as.list(func_call$lhs)[[2]]
 
-    if (is.name(message)) {
+    if (is.name(message)) {  # check whether message is a variable
         message <- eval(message, envir = parent)
     }
 
