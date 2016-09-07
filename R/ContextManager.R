@@ -11,12 +11,11 @@ ContextManager <- function (start = function () {},
         # execute a function on start
         start(message)
 
-        # execute a function on exit
-        on.exit(end(message))
-
         # Evaluate the expression
         output <-  # assign to dummy variable to avoid unnecessar output
             eval(expr, envir = env)
+
+        end(message)
     }
 }
 
