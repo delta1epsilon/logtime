@@ -7,9 +7,17 @@
 #'
 #' @param msg A string
 #' @param time Time of the log to be printed
+#' @param logger_name
 #' @param file A connection, or a character string naming the file to print to.
-PrintLogMessage <- function (msg, time, file = '') {
-    cat(as.character(time), paste0('[', msg, ']'),
+PrintLogMessage <- function (msg, time, logger_name = NULL, file = '') {
+    if (!is.null(logger_name)) {
+        time_and_logger_name <-
+          paste(as.character(time), paste0('[', logger_name, ']'), sep = ' - ')
+    } else {
+        time_and_logger_name <- as.character(time)
+    }
+
+    cat(time_and_logger_name, paste0('[', msg, ']'),
         sep = ' - ', fill = TRUE, file = file,
         append = ifelse(file == '', FALSE, TRUE)
         )
@@ -25,12 +33,14 @@ PrintLogMessage <- function (msg, time, file = '') {
 #' @param start_or_end Wheter 'start' or 'end'
 #' @param exec_time_sec Duration of code execution in seconds
 #' @param indentation_level An integer
+#' @param logger_name
 #' @param file A connection, or a character string naming the file to print to.
 PrintLogtimeMessage <- function (msg,
                                  time,
                                  start_or_end = 'start',
                                  exec_time_sec = NULL,
                                  indentation_level = 0,
+                                 logger_name = NULL,
                                  file = ''
                                  ) {
     stopifnot(start_or_end %in% c('start', 'end'))
@@ -52,6 +62,11 @@ PrintLogtimeMessage <- function (msg,
                   )
 
         msg_and_exec_time <- paste(paste0('[', msg, ']'), '-', exec_time_msg)
+    }
+
+    if (!is.null(logger_name)) {
+        indentation_and_time <-
+          paste(indentation_and_time, paste0('[', logger_name, ']'), sep = ' - ')
     }
 
     cat(indentation_and_time, start_or_end, msg_and_exec_time,
