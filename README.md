@@ -1,9 +1,9 @@
-RTiming
+logtime: R package for logging and timing
 =================================================
 
-The package provides possibility of code timing in easy, efficient and nice looking way.
+The package provides possibility of code logging and timing in easy and efficient way.
 
-    Logtime(message) %<% {
+    logtime(message) %<% {
         expression
     }
 
@@ -16,10 +16,10 @@ The package provides possibility of code timing in easy, efficient and nice look
 
 # Examples
 
-    library(RTiming)
+    library(logtime)
 
-    gauss_random <- Logtime('Generate random numbers') %<% {
-        rnorm(10000000) 
+    gauss_random <- logtime('Generate random numbers') %<% {
+        rnorm(10000000)
     }
 
     # prints:

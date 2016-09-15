@@ -1,4 +1,4 @@
 library(testthat)
-library(RTiming)
+library(logtime)
 
-test_check("RTiming")
+test_check("logtime")

@@ -1,11 +1,11 @@
-#' Print starting log with message before execution of 
-#' expresion in context of Logtime
+#' Print starting log with message before execution of
+#' expresion in context of logtime
 #' 
 #' @param msg A message to print in log
 OnStart <- function (msg) {
     options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
-    
+
     # save start time of execution to .RTiming  environment
     # and get indentation level
     indentation_level <- SetStartTime()
@@ -16,8 +16,8 @@ OnStart <- function (msg) {
 }
 
 
-#' Print ending log with message and exec time after execution of 
-#' expresion in context of Logtime
+#' Print ending log with message and exec time after execution of
+#' expresion in context of logtime
 #'
 #' @param msg A message to print in log
 OnEnd <- function (msg) {
@@ -37,8 +37,8 @@ OnEnd <- function (msg) {
     exec_time_min <- round(exec_time_sec / 60, 2)
 
     # execution time message
-    exec_time_msg <- 
-        paste0('[Done by ', round(exec_time_sec, 2), 
+    exec_time_msg <-
+        paste0('[Done by ', round(exec_time_sec, 2),
                ' sec. ', '(', exec_time_min, ' min.',')', ']'
                )
 
@@ -52,22 +52,22 @@ OnEnd <- function (msg) {
 #'
 #' Time your code in easy, efficient and nice looking way
 #'
-#' @usage Logtime(message) \%<\% \{
+#' @usage logtime(message) \%<\% \{
 #'    expression
 #' \}
 #'
-#' @param message A string describing context of code 
-#' 
-#' @return Prints 2 log messages with start, end of code execution and time of code execution  
-#' 
-#' @examples 
-#' gauss_random <- Logtime('Generate random numbers') %<% {
-#'      rnorm(10000000) 
+#' @param message A string describing context of code
+#'
+#' @return Prints 2 log messages with start, end of code execution and time of code execution
+#'
+#' @examples
+#' gauss_random <- logtime('Generate random numbers') %<% {
+#'      rnorm(10000000)
 #' }
-#' 
+#'
 #' # prints:
 #' # 2016-07-29 18:04:15.4 - [Start] - [Generate random numbers]
 #' # 2016-07-29 18:04:18.9 - [End] - [Generate random numbers] - [Done by 3.48 sec. (0.06 min.)]
 #'
 #' @export
-Logtime <- ContextManager(start = OnStart, end = OnEnd)
+logtime <- ContextManager(start = OnStart, end = OnEnd)
