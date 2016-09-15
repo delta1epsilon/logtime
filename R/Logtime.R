@@ -1,6 +1,6 @@
 #' Print starting log with message before execution of
 #' expresion in context of logtime
-#' 
+#'
 #' @param msg A message to print in log
 OnStart <- function (msg) {
     options(digits.secs = 1)
@@ -10,9 +10,7 @@ OnStart <- function (msg) {
     # and get indentation level
     indentation_level <- SetStartTime()
 
-    # print log message
-    indent_string <- paste(rep(' ', indentation_level), collapse = ' ')
-    cat(indent_string, time, '[Start]', paste0('[', msg, ']'), sep = ' - ', fill = TRUE)
+    PrintLogtimeMessage(msg, time, start_or_end = 'start', indentation_level = indentation_level)
 }
 
 
@@ -34,17 +32,8 @@ OnEnd <- function (msg) {
 
     # calculate execution time
     exec_time_sec <- difftime(end_time, start_time, units = 'secs')
-    exec_time_min <- round(exec_time_sec / 60, 2)
 
-    # execution time message
-    exec_time_msg <-
-        paste0('[Done by ', round(exec_time_sec, 2),
-               ' sec. ', '(', exec_time_min, ' min.',')', ']'
-               )
-
-    # print log message
-    indent_string <- paste(rep(' ', indentation_level), collapse = ' ')
-    cat(indent_string, time, '[End]', paste0('[', msg, ']'), exec_time_msg, sep = ' - ', fill = TRUE)
+    PrintLogtimeMessage(msg, time, start_or_end = 'end', exec_time_sec = exec_time_sec, indentation_level = indentation_level)
 }
 
 
