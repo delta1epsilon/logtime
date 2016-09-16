@@ -52,22 +52,38 @@ OnEnd <- function (msg, level = NULL, ...) {
 #'
 #' Time your code in easy, efficient and nice looking way
 #'
-#' @usage logtime(message) \%<\% \{
+#' @usage logtime(message, level = 'DEBUG') \%<\% \{
 #'    expression
 #' \}
 #'
 #' @param message A string describing context of code
+#' @param level A logging level. One of 'INFO' or 'DEBUG'. Default is DEBUG.
 #'
 #' @return Prints 2 log messages with start, end of code execution and time of code execution
 #'
 #' @examples
-#' gauss_random <- logtime('Generate random numbers') %<% {
-#'      rnorm(10000000)
+#'
+#' # create a logtime with message 'Some text';
+#' # default level is DEBUG
+#' logtime('Some text') %<% {
+#'    Sys.sleep(1)
 #' }
 #'
-#' # prints:
-#' # 2016-07-29 18:04:15.4 - [Start] - [Generate random numbers]
-#' # 2016-07-29 18:04:18.9 - [End] - [Generate random numbers] - [Done by 3.48 sec. (0.06 min.)]
+#' # output:
+#' # 2016-09-16 16:19:29.8 - DEBUG - [Start] - [Some text]
+#' # 2016-09-16 16:19:30.8 - DEBUG - [End] -
+#' #  [Some text] - [Done by 1 sec. (0.02 min.)]
+#'
+#'
+#' # create the same logtime with changed level to INFO
+#' logtime('Some text', level = 'INFO') %<% {
+#'    Sys.sleep(1)
+#' }
+#'
+#' # output:
+#' # 2016-09-16 16:24:15.7 - INFO - [Start] - [Some message]
+#' # 2016-09-16 16:24:16.7 - INFO - [End] -
+#' #  [Some message] - [Done by 1 sec. (0.02 min.)]
 #'
 #' @export
 logtime <- ContextManager(start = OnStart, end = OnEnd)

@@ -7,8 +7,9 @@
 #'
 #' @param msg A string
 #' @param time Time of the log to be printed
-#' @param logger_name
+#' @param logger_name A string
 #' @param file A connection, or a character string naming the file to print to.
+#'
 PrintLogMessage <- function (msg, time, level = NULL, logger_name = NULL, file = '') {
     if (!is.null(logger_name)) {
         logger_name <- paste0('[', logger_name, ']')
@@ -30,7 +31,7 @@ PrintLogMessage <- function (msg, time, level = NULL, logger_name = NULL, file =
 #' @param start_or_end Wheter 'start' or 'end'
 #' @param exec_time_sec Duration of code execution in seconds
 #' @param indentation_level An integer
-#' @param logger_name
+#' @param logger_name A string
 #' @param file A connection, or a character string naming the file to print to.
 PrintLogtimeMessage <- function (msg,
                                  time,
