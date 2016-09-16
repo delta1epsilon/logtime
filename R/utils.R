@@ -19,7 +19,7 @@ PrintLogMessage <- function (msg, time, level = NULL, logger_name = NULL, file =
         logger_name <- paste0('[', logger_name, ']')
     }
 
-    if (GetLoggingFile() != '') file <- GetLoggingFile()
+    if (file == '' & GetLoggingFile() != '') file <- GetLoggingFile()
 
     if (CompareLevel(level = level)) {
         cat(as.character(time), logger_name, level, paste0('[', msg, ']'),
@@ -76,7 +76,7 @@ PrintLogtimeMessage <- function (msg,
           paste(indentation_and_time, paste0('[', logger_name, ']'), sep = ' - ')
     }
 
-    if (GetLoggingFile() != '') file <- GetLoggingFile()
+    if (file == '' & GetLoggingFile() != '') file <- GetLoggingFile()
 
     if (CompareLevel(level = level)) {
         cat(indentation_and_time, level, start_or_end, msg_and_exec_time,
