@@ -9,15 +9,12 @@
 #' @param time Time of the log to be printed
 #' @param logger_name
 #' @param file A connection, or a character string naming the file to print to.
-PrintLogMessage <- function (msg, time, logger_name = NULL, file = '') {
+PrintLogMessage <- function (msg, time, level = NULL, logger_name = NULL, file = '') {
     if (!is.null(logger_name)) {
-        time_and_logger_name <-
-          paste(as.character(time), paste0('[', logger_name, ']'), sep = ' - ')
-    } else {
-        time_and_logger_name <- as.character(time)
+        logger_name <- paste0('[', logger_name, ']')
     }
 
-    cat(time_and_logger_name, paste0('[', msg, ']'),
+    cat(as.character(time), logger_name, level, paste0('[', msg, ']'),
         sep = ' - ', fill = TRUE, file = file,
         append = ifelse(file == '', FALSE, TRUE)
         )

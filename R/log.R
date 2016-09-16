@@ -1,12 +1,14 @@
 #' Create log function
 #'
-#' 
-createLogFunction <- function (...) {
-    function (message) {
+#'
+createLogFunction <- function (level = 'DEBUG', ...) {
+    logger_level = level
+
+    function (message, level = logger_level) {
         options(digits.secs = 1)
         time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
 
-        PrintLogMessage(message, time, ...)
+        PrintLogMessage(message, time, level, ...)
     }
 }
 
