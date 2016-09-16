@@ -2,7 +2,7 @@
 #' expresion in context of logtime
 #'
 #' @param msg A message to print in log
-OnStart <- function (msg, ...) {
+OnStart <- function (msg, level = NULL, ...) {
     options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
 
@@ -10,7 +10,12 @@ OnStart <- function (msg, ...) {
     # and get indentation level
     indentation_level <- SetStartTime()
 
-    PrintLogtimeMessage(msg, time, start_or_end = 'start', indentation_level = indentation_level, ...)
+    PrintLogtimeMessage(msg, time,
+                        start_or_end = 'start',
+                        indentation_level = indentation_level,
+                        level = level,
+                        ...
+                        )
 }
 
 
@@ -18,7 +23,7 @@ OnStart <- function (msg, ...) {
 #' expresion in context of logtime
 #'
 #' @param msg A message to print in log
-OnEnd <- function (msg, ...) {
+OnEnd <- function (msg, level = NULL, ...) {
     end_time <- Sys.time()
 
     options(digits.secs = 1)
@@ -33,7 +38,13 @@ OnEnd <- function (msg, ...) {
     # calculate execution time
     exec_time_sec <- difftime(end_time, start_time, units = 'secs')
 
-    PrintLogtimeMessage(msg, time, start_or_end = 'end', exec_time_sec = exec_time_sec, indentation_level = indentation_level, ...)
+    PrintLogtimeMessage(msg, time,
+                        start_or_end = 'end',
+                        exec_time_sec = exec_time_sec,
+                        indentation_level = indentation_level,
+                        level = level,
+                        ...
+                        )
 }
 
 

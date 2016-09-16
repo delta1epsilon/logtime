@@ -5,7 +5,7 @@
 #' @export
 createLogger <- function (name, level, file = '') {
     logger <-
-      list(logtime = ContextManager(start = OnStart, end = OnEnd, logger_name = name, file = file),
+      list(logtime = ContextManager(start = OnStart, end = OnEnd, level = level, logger_name = name, file = file),
            log = createLogFunction(level = level, logger_name = name, file = file)
            )
 

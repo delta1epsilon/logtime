@@ -6,16 +6,19 @@
 #' @return A function
 ContextManager <- function (start = function () {},
                             end = function () {},
+                            level = 'DEBUG',
                             ...
                             ) {
-    function (expr, env = parent.frame(), message) {
+    logger_level = level
+
+    function (expr, env = parent.frame(), message, level = logger_level) {
         # execute a function on start
-        start(message, ...)
+        start(message, level, ...)
 
         # Evaluate the expression
         output <-  # assign to dummy variable to avoid unnecessar output
             eval(expr, envir = env)
 
-        end(message, ...)
+        end(message, level, ...)
     }
 }

@@ -19,15 +19,28 @@
     eval(parse(text = paste("func <-", func)))  # a fix for logger$logtime
 
     # get left function arguments
-    message <- as.list(func_call$lhs)[[2]]
+    func_call <- as.list(func_call$lhs)
+    # print('Arguments')
+    # print(func_call)
+
+    message <- func_call[[2]]
+    # print('Message:')
+    # print(message)
 
     if (is.name(message)) {  # check whether message is a variable
         message <- eval(message, envir = parent)
     }
 
+    arguments <- list(expr, parent, message)
+
+    # get level
+    if (length(func_call) == 3) {
+        arguments <- c(arguments, level = func_call[[3]])
+    }
+
     # run expression
     output <-  # assign to dummy variable to avoid unnecessar output
-        eval(do.call(func, list(expr, parent, message)),
+        eval(do.call(func, arguments),
              envir = parent
              )
 }

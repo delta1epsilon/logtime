@@ -37,6 +37,7 @@ PrintLogtimeMessage <- function (msg,
                                  start_or_end = 'start',
                                  exec_time_sec = NULL,
                                  indentation_level = 0,
+                                 level = NULL,
                                  logger_name = NULL,
                                  file = ''
                                  ) {
@@ -66,7 +67,7 @@ PrintLogtimeMessage <- function (msg,
           paste(indentation_and_time, paste0('[', logger_name, ']'), sep = ' - ')
     }
 
-    cat(indentation_and_time, start_or_end, msg_and_exec_time,
+    cat(indentation_and_time, level, start_or_end, msg_and_exec_time,
         sep = ' - ', fill = TRUE, file = file,
         append = ifelse(file == '', FALSE, TRUE)
         )
