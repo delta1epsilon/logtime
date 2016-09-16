@@ -1,6 +1,10 @@
 # create environment for the package use
 .RTiming <- new.env()
 
+# create environment for the package use
+.Configs <- new.env()
+
+
 #' Print log message
 #'
 #' Prints a log to console or writes a log to a file
@@ -15,10 +19,14 @@ PrintLogMessage <- function (msg, time, level = NULL, logger_name = NULL, file =
         logger_name <- paste0('[', logger_name, ']')
     }
 
-    cat(as.character(time), logger_name, level, paste0('[', msg, ']'),
-        sep = ' - ', fill = TRUE, file = file,
-        append = ifelse(file == '', FALSE, TRUE)
-        )
+    if (GetLoggingFile() != '') file <- GetLoggingFile()
+
+    if (CompareLevel(level = level)) {
+        cat(as.character(time), logger_name, level, paste0('[', msg, ']'),
+            sep = ' - ', fill = TRUE, file = file,
+            append = ifelse(file == '', FALSE, TRUE)
+            )
+    }
 }
 
 #' Print logtime message
@@ -68,10 +76,14 @@ PrintLogtimeMessage <- function (msg,
           paste(indentation_and_time, paste0('[', logger_name, ']'), sep = ' - ')
     }
 
-    cat(indentation_and_time, level, start_or_end, msg_and_exec_time,
-        sep = ' - ', fill = TRUE, file = file,
-        append = ifelse(file == '', FALSE, TRUE)
-        )
+    if (GetLoggingFile() != '') file <- GetLoggingFile()
+
+    if (CompareLevel(level = level)) {
+        cat(indentation_and_time, level, start_or_end, msg_and_exec_time,
+            sep = ' - ', fill = TRUE, file = file,
+            append = ifelse(file == '', FALSE, TRUE)
+            )
+    }
 }
 
 #' Set Start time of code execution
@@ -130,4 +142,40 @@ GetAndRemoveStartTime <- function () {
     indentation_level <- max_index - 1
 
     return(list(start_time = start_time, indentation = indentation_level))
+}
+
+#' Set logging level
+#'
+#' @param level A logging level
+SetLoggingLevel <- function (level = 'DEBUG') {
+    assign(x = 'level', value = level, envir = .Configs)
+}
+
+#' Set logging file
+#'
+#' @param file A connection, or a character string naming the file to print to.
+SetLoggingFile <- function (file = '') {
+    assign(x = 'file', value = file, envir = .Configs)
+}
+
+#' Get logging file name from .Configs environment
+#'
+#'
+GetLoggingFile <- function () {
+    get('file', envir = .Configs)
+}
+
+#' Compare logging levels
+#'
+#' @return TRUE in case when a print has to be done
+CompareLevel <- function (level) {
+    session_level <- get('level', envir = .Configs)
+
+    if (session_level == 'DEBUG') {
+        return(TRUE)
+    } else if (level == 'DEBUG' & session_level == 'INFO') {
+        return(FALSE)
+    } else {
+        return(TRUE)
+    }
 }
