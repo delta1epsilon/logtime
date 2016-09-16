@@ -6,7 +6,7 @@ OnStart <- function (msg, level = NULL, ...) {
     options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
 
-    # save start time of execution to .RTiming  environment
+    # save start time of execution to .Timing  environment
     # and get indentation level
     indentation_level <- SetStartTime()
 

@@ -1,5 +1,5 @@
 # create environment for the package use
-.RTiming <- new.env()
+.Timing <- new.env()
 
 # create environment for the package use
 .Configs <- new.env()
@@ -55,31 +55,29 @@ PrintLogtimeMessage <- function (msg,
     indent_string <- paste(rep(' ', indentation_level), collapse = ' ')
     indentation_and_time <- paste0(indent_string, as.character(time))
 
+    msg <- paste0('[', msg, ']')
+
     if (start_or_end == 'start') {
         start_or_end <- '[Start]'
-        msg_and_exec_time <- paste0('[', msg, ']')
+        exec_time_msg <- NULL
     } else {
         start_or_end <- '[End]'
-        exec_time_min <- round(exec_time_sec / 60, 2)
+        exec_time_min <- round(exec_time_sec / 60, 1)
 
         # execution time message
         exec_time_msg <-
-            paste0('[Done by ', round(exec_time_sec, 2),
+            paste0('[Done by ', round(exec_time_sec, 1),
                    ' sec. ', '(', exec_time_min, ' min.',')', ']'
                   )
-
-        msg_and_exec_time <- paste(paste0('[', msg, ']'), '-', exec_time_msg)
     }
 
-    if (!is.null(logger_name)) {
-        indentation_and_time <-
-          paste(indentation_and_time, paste0('[', logger_name, ']'), sep = ' - ')
-    }
+    if (!is.null(logger_name)) logger_name <- paste0('[', logger_name, ']')
 
+    # write to file from global config if it is not empty and local file is empty
     if (file == '' & GetLoggingFile() != '') file <- GetLoggingFile()
 
     if (CompareLevel(level = level)) {
-        cat(indentation_and_time, level, start_or_end, msg_and_exec_time,
+        cat(indentation_and_time, logger_name, level, start_or_end, msg, exec_time_msg,
             sep = ' - ', fill = TRUE, file = file,
             append = ifelse(file == '', FALSE, TRUE)
             )
@@ -88,11 +86,11 @@ PrintLogtimeMessage <- function (msg,
 
 #' Set Start time of code execution
 #'
-#' Create variable "start_time_ + index" in .RTiming env
+#' Create variable "start_time_ + index" in .Timing env
 #'
 #' @return indentation level (An integer)
 SetStartTime <- function () {
-    env_ls <- ls(.RTiming)
+    env_ls <- ls(.Timing)
 
     if (length(env_ls) == 0) {
         new_index <- 1
@@ -106,8 +104,8 @@ SetStartTime <- function () {
 
     var_name <- paste0('start_time_', new_index)
 
-    # save new 'start_time_ + index' to .RTiming  environment
-    assign(var_name, Sys.time(), envir = .RTiming)
+    # save new 'start_time_ + index' to .Timing  environment
+    assign(var_name, Sys.time(), envir = .Timing)
 
     # set level of indentation for logs
     indentation_level <- new_index - 1
@@ -117,14 +115,14 @@ SetStartTime <- function () {
 
 #' Get And remove Start time of code execution
 #'
-#' Get and Remove variable "start_time_..." from .RTiming env
+#' Get and Remove variable "start_time_..." from .Timing env
 #'
 #' @return A list with start_time and indentation level (An integer)
 GetAndRemoveStartTime <- function () {
-    env_ls <- ls(.RTiming)
+    env_ls <- ls(.Timing)
 
     if (length(env_ls) == 0) {
-        stop('There is no start_time in .RTiming env')
+        stop('There is no start_time in .Timing env')
     } else {
         # get indeces of 'start_time'
         indeces <- gsub('start_time_', '', env_ls)  # class character
@@ -134,10 +132,10 @@ GetAndRemoveStartTime <- function () {
     max_index <- max(as.numeric(indeces))
 
     var_name <- paste0('start_time_', max_index)
-    start_time <- get(var_name, envir = .RTiming)
+    start_time <- get(var_name, envir = .Timing)
 
     # remove 'start_time_ + index'
-    rm(list = var_name, envir = .RTiming)
+    rm(list = var_name, envir = .Timing)
 
     indentation_level <- max_index - 1
 
@@ -159,8 +157,6 @@ SetLoggingFile <- function (file = '') {
 }
 
 #' Get logging file name from .Configs environment
-#'
-#'
 GetLoggingFile <- function () {
     get('file', envir = .Configs)
 }
