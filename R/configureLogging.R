@@ -1,6 +1,6 @@
 #' Configure logging options
 #'
-#' @param level A logging level. One of  'DEBUG' or 'INFO'. Default is 'DEBUG'
+#' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'
 #' @param file A connection, or a character string naming the file to print to.
 #'
 #' @examples

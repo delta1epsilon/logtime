@@ -146,6 +146,8 @@ GetAndRemoveStartTime <- function () {
 #'
 #' @param level A logging level
 SetLoggingLevel <- function (level = 'DEBUG') {
+    CheckIfLevelValid(level)
+    
     assign(x = 'level', value = level, envir = .Configs)
 }
 
@@ -167,11 +169,30 @@ GetLoggingFile <- function () {
 CompareLevel <- function (level) {
     session_level <- get('level', envir = .Configs)
 
-    if (session_level == 'DEBUG') {
-        return(TRUE)
-    } else if (level == 'DEBUG' & session_level == 'INFO') {
+    level_mapping <-
+        list(DEBUG = 0,
+             INFO = 1,
+             WARNING = 2,
+             ERROR = 3
+             )
+
+    session_level <- level_mapping[[session_level]]
+    level <- level_mapping[[level]]
+
+    if (level < session_level) {
         return(FALSE)
-    } else {
+    } else if (level >= session_level) {
         return(TRUE)
+    }
+}
+
+#' Throw an error when logging level is not valid
+#'
+#' @param level A logging level
+CheckIfLevelValid <- function (level) {
+    valid_levels <- c('DEBUG', 'INFO', 'WARNING', 'ERROR')
+
+    if (!(level %in% valid_levels)) {
+        stop('Logging level is not valid. Should be one of \n DEBUG, INFO, WARNING, ERROR')
     }
 }

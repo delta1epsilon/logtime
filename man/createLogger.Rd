@@ -9,7 +9,7 @@ createLogger(name, level, file = "")
 \arguments{
 \item{name}{A logger name}
 
-\item{level}{A logging level. One of  'DEBUG' or 'INFO'}
+\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'.}
 
 \item{file}{A connection, or a character string naming the file to print to.}
 }

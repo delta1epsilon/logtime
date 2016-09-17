@@ -12,6 +12,8 @@ ContextManager <- function (start = function () {},
     logger_level = level
 
     function (expr, env = parent.frame(), message, level = logger_level) {
+        CheckIfLevelValid(level)
+
         # execute a function on start
         start(message, level, ...)
 

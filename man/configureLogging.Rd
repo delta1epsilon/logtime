@@ -7,7 +7,7 @@
 configureLogging(level = "DEBUG", file = "")
 }
 \arguments{
-\item{level}{A logging level. One of  'DEBUG' or 'INFO'. Default is 'DEBUG'}
+\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'}
 
 \item{file}{A connection, or a character string naming the file to print to.}
 }

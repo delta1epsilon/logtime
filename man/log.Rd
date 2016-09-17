@@ -9,7 +9,7 @@ log(message, level = 'DEBUG')
 \arguments{
 \item{message}{A string}
 
-\item{level}{A logging level. One of 'INFO' or 'DEBUG'. Default is DEBUG.}
+\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.}
 }
 \value{
 Prints a message

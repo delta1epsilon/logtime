@@ -5,6 +5,8 @@ createLogFunction <- function (level = 'DEBUG', ...) {
     logger_level = level
 
     function (message, level = logger_level) {
+        CheckIfLevelValid(level)
+
         options(digits.secs = 1)
         time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
 
@@ -19,7 +21,7 @@ createLogFunction <- function (level = 'DEBUG', ...) {
 #' @usage log(message, level = 'DEBUG')
 #'
 #' @param message A string
-#' @param level A logging level. One of 'INFO' or 'DEBUG'. Default is DEBUG.
+#' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.
 #' @return Prints a message
 #'
 #'

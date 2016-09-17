@@ -57,7 +57,7 @@ OnEnd <- function (msg, level = NULL, ...) {
 #' \}
 #'
 #' @param message A string describing context of code
-#' @param level A logging level. One of 'INFO' or 'DEBUG'. Default is DEBUG.
+#' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
 #'
 #' @return Prints 2 log messages with start, end of code execution and time of code execution
 #'

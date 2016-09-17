@@ -11,7 +11,7 @@ logtime(message, level = 'DEBUG') \%<\% \{
 \arguments{
 \item{message}{A string describing context of code}
 
-\item{level}{A logging level. One of 'INFO' or 'DEBUG'. Default is DEBUG.}
+\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.}
 }
 \value{
 Prints 2 log messages with start, end of code execution and time of code execution

@@ -1,7 +1,7 @@
 #' Create a logger
 #'
 #' @param name A logger name
-#' @param level A logging level. One of  'DEBUG' or 'INFO'
+#' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'.
 #' @param file A connection, or a character string naming the file to print to.
 #' @export
 #'
@@ -47,6 +47,8 @@
 #'
 #'
 createLogger <- function (name, level, file = '') {
+    CheckIfLevelValid(level)
+
     logger <-
       list(logtime = ContextManager(start = OnStart,
                                     end = OnEnd,
