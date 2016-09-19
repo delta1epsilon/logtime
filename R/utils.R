@@ -66,7 +66,7 @@ PrintLogtimeMessage <- function (msg,
 
         # execution time message
         exec_time_msg <-
-            paste0('[Done by ', round(exec_time_sec, 1),
+            paste0('[Done in ', round(exec_time_sec, 1),
                    ' sec. ', '(', exec_time_min, ' min.',')', ']'
                   )
     }

@@ -72,7 +72,7 @@ OnEnd <- function (msg, level = NULL, ...) {
 #' # output:
 #' # 2016-09-16 16:19:29.8 - DEBUG - [Start] - [Some text]
 #' # 2016-09-16 16:19:30.8 - DEBUG - [End] -
-#' #  [Some text] - [Done by 1 sec. (0.02 min.)]
+#' #  [Some text] - [Done in 1 sec. (0.02 min.)]
 #'
 #'
 #' # create the same logtime with changed level to INFO
@@ -83,7 +83,7 @@ OnEnd <- function (msg, level = NULL, ...) {
 #' # output:
 #' # 2016-09-16 16:24:15.7 - INFO - [Start] - [Some message]
 #' # 2016-09-16 16:24:16.7 - INFO - [End] -
-#' #  [Some message] - [Done by 1 sec. (0.02 min.)]
+#' #  [Some message] - [Done in 1 sec. (0.02 min.)]
 #'
 #' @export
 logtime <- ContextManager(start = OnStart, end = OnEnd)

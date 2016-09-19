@@ -32,7 +32,7 @@
 #' # output:
 #' # 2016-09-16 16:35:33.0 - [clean_data] - INFO - [Start] - [Some message]
 #' # 2016-09-16 16:35:34.0 - [clean_data] - INFO - [End] -
-#' #   [Some message] - [Done by 1.01 sec. (0.02 min.)]
+#' #   [Some message] - [Done in 1.01 sec. (0.02 min.)]
 #'
 #'
 #' # create logtime with changed level to DEBUG in context of logger
@@ -43,7 +43,7 @@
 #' # output:
 #' # 2016-09-16 16:37:21.4 - [clean_data] - DEBUG - [Start] - [Some message]
 #' # 2016-09-16 16:37:22.4 - [clean_data] - DEBUG - [End] -
-#' #   [Some message] - [Done by 1.01 sec. (0.02 min.)]
+#' #   [Some message] - [Done in 1.01 sec. (0.02 min.)]
 #'
 #'
 createLogger <- function (name, level, file = '') {
