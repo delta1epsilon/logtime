@@ -1,0 +1,121 @@
+---
+title: "logtime: R package for logging and timing"
+author: "Ihor Kovalyshyn, Andriy Muzychuk"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{logtime: R package for logging and timing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+library(logtime)
+```
+
+
+In this article I would like to walk you through the main usecases of **logtime** package.
+
+
+## log_time 
+
+
+```log_time``` provides you with possibility of simple and efficient logging and timing of your code.
+
+
+```log_time``` usage is 
+
+
+```
+log_time(message, level = 'DEBUG') %<% {
+   expression
+}
+```
+
+
+Let's say I would like to logtime generating of random numbers.
+
+```{r log_time_1, echo=TRUE, message=FALSE, warning=FALSE}
+log_time ('Generate random numbers') %<% {
+    norm_dist_random_numbers <- rnorm(10000000)
+    exp_dist_random_numbers <- rexp(10000000)    
+    pois_dist_random_numbers <- rpois(10000000, lambda = 1)
+}
+```
+
+```log_time``` evaluates an expression in calling environment.
+
+```log_time``` uses pipe operator ```%<%``` what makes the code beautiful and readable.
+
+By default it has level DEBUG but the package supports DEBUG, INFO, WARNING and  ERROR levels. 
+
+
+## log_message
+
+```log_message``` just prints a log with specified logging level. The usage is 
+
+```
+log_message(message, level = 'DEBUG')
+```
+
+So, let's create a log which tells that data frame is empty.
+
+```{r log_message_1, echo=TRUE, message=FALSE, warning=FALSE}
+log_message('The data frame is empty', level = 'WARNING')
+```
+
+
+## create_logger
+
+Also the package gives you opportunity to create your own loggers with specific logging level and file for writing logs to. The logger has ```log_time``` and ```log_message``` attributes.
+
+Let's create a logger called *clean_data* with default level INFO which will write all the logs to file *clean_data.log*.
+
+```{r create_logger_1, echo=TRUE}
+clean_data_logger <- create_logger(name = 'clean_data', 
+                                   level = 'INFO', 
+                                   file = 'clean_data.log'
+                                   )
+```
+
+And let's logtime some process in data cleaning procedure.
+
+```{r create_logger_2, echo=TRUE}
+clean_data_logger$log_time ('Data cleaning step X') %<% {
+    # some code
+}
+```
+
+The code above writes logs to *clean_data.log* file with logging level INFO.
+By default the logger's ```log_time``` and ```log_message``` have level INFO and can be changed. 
+
+
+Now let's create simple log with changed level to ERROR.
+
+```{r create_logger_3, echo=TRUE}
+clean_data_logger$log_message('Something awful happened', level = 'ERROR')
+```
+
+
+## configure_logging
+
+
+Last but not least there is ```configure_logging``` option in the package which sets threshold for printing logs and sets file for writing logs to.
+
+The usage is:
+
+```
+configure_logging(level = "DEBUG", file = "")
+```
+
+So, to set the package for printing only logs with levels INFO and higher (namely INFO, WARNING and ERROR) we write:
+
+```
+configure_logging(level = 'INFO')
+```
+
+To set the package for printing logs to *log.log* file with levels WARNING and higher we write:
+
+```
+configure_logging(level = 'WARNING')
+```

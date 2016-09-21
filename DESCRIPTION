@@ -10,4 +10,7 @@ Description: The package provides possibility of code logging and timing in nice
 License: file license
 LazyData: TRUE
 RoxygenNote: 5.0.1
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
