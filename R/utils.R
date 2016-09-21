@@ -69,7 +69,7 @@ get_and_remove_start_time <- function () {
 #' @param level A logging level
 set_logging_level <- function (level = 'DEBUG') {
     check_if_level_valid(level)
-    
+
     assign(x = 'level', value = level, envir = .Configs)
 }
 
@@ -119,6 +119,6 @@ check_if_level_valid <- function (level) {
     valid_levels <- c('DEBUG', 'INFO', 'WARNING', 'ERROR')
 
     if (!(level %in% valid_levels)) {
-        stop('Logging level is not valid. Should be one of \n DEBUG, INFO, WARNING, ERROR')
+        stop('Logging level is not valid. Should be one of \n DEBUG, INFO, WARNING, ERROR', call. = FALSE)
     }
 }
