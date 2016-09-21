@@ -1,4 +1,4 @@
-#' Pipe operator for Context Manager
+#' Pipe operator for log_time
 #'
 #' @param lhs A function call which first argument is expression
 #' @param rhs An expression
@@ -16,16 +16,12 @@
 
     # get left function name
     func <- as.character(func_call$lhs)[1]
-    eval(parse(text = paste("func <-", func)))  # a fix for logger$logtime
+    eval(parse(text = paste("func <-", func)))  # a fix for logger$log_time
 
     # get left function arguments
     func_call <- as.list(func_call$lhs)
-    # print('Arguments')
-    # print(func_call)
 
     message <- func_call[[2]]
-    # print('Message:')
-    # print(message)
 
     if (is.name(message)) {  # check whether message is a variable
         message <- eval(message, envir = parent)

@@ -2,20 +2,20 @@
 #' expresion in context of logtime
 #'
 #' @param msg A message to print in log
-OnStart <- function (msg, level = NULL, ...) {
+on_start <- function (msg, level = NULL, ...) {
     options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
 
     # save start time of execution to .Timing  environment
     # and get indentation level
-    indentation_level <- SetStartTime()
+    indentation_level <- set_start_time()
 
-    PrintLogtimeMessage(msg, time,
-                        start_or_end = 'start',
-                        indentation_level = indentation_level,
-                        level = level,
-                        ...
-                        )
+    print_logtime_message(msg, time,
+                          start_or_end = 'start',
+                          indentation_level = indentation_level,
+                          level = level,
+                          ...
+                          )
 }
 
 
@@ -23,7 +23,7 @@ OnStart <- function (msg, level = NULL, ...) {
 #' expresion in context of logtime
 #'
 #' @param msg A message to print in log
-OnEnd <- function (msg, level = NULL, ...) {
+on_end <- function (msg, level = NULL, ...) {
     end_time <- Sys.time()
 
     options(digits.secs = 1)
@@ -31,20 +31,20 @@ OnEnd <- function (msg, level = NULL, ...) {
 
     # fetch start time of execurion
     # and indentation level
-    time_indentation <- GetAndRemoveStartTime()
+    time_indentation <- get_and_remove_start_time()
     start_time <- time_indentation$start_time
     indentation_level <- time_indentation$indentation
 
     # calculate execution time
     exec_time_sec <- difftime(end_time, start_time, units = 'secs')
 
-    PrintLogtimeMessage(msg, time,
-                        start_or_end = 'end',
-                        exec_time_sec = exec_time_sec,
-                        indentation_level = indentation_level,
-                        level = level,
-                        ...
-                        )
+    print_logtime_message(msg, time,
+                          start_or_end = 'end',
+                          exec_time_sec = exec_time_sec,
+                          indentation_level = indentation_level,
+                          level = level,
+                          ...
+                          )
 }
 
 
@@ -52,7 +52,7 @@ OnEnd <- function (msg, level = NULL, ...) {
 #'
 #' Time your code in easy, efficient and nice looking way
 #'
-#' @usage logtime(message, level = 'DEBUG') \%<\% \{
+#' @usage log_time(message, level = 'DEBUG') \%<\% \{
 #'    expression
 #' \}
 #'
@@ -61,29 +61,29 @@ OnEnd <- function (msg, level = NULL, ...) {
 #'
 #' @return Prints 2 log messages with start, end of code execution and time of code execution
 #'
+#' @seealso \code{\link{log_message}}
+#'
 #' @examples
 #'
 #' # create a logtime with message 'Some text';
 #' # default level is DEBUG
-#' logtime('Some text') %<% {
+#' log_time('Some text') %<% {
 #'    Sys.sleep(1)
 #' }
 #'
 #' # output:
-#' # 2016-09-16 16:19:29.8 - DEBUG - [Start] - [Some text]
-#' # 2016-09-16 16:19:30.8 - DEBUG - [End] -
-#' #  [Some text] - [Done in 1 sec. (0.02 min.)]
+#' # 2016-09-21 10:54:31.8 - DEBUG - [Start] - [Some text]
+#' # 2016-09-21 10:54:32.9 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #'
 #' # create the same logtime with changed level to INFO
-#' logtime('Some text', level = 'INFO') %<% {
+#' log_time('Some text', level = 'INFO') %<% {
 #'    Sys.sleep(1)
 #' }
 #'
 #' # output:
-#' # 2016-09-16 16:24:15.7 - INFO - [Start] - [Some message]
-#' # 2016-09-16 16:24:16.7 - INFO - [End] -
-#' #  [Some message] - [Done in 1 sec. (0.02 min.)]
+#' # 2016-09-21 10:53:20.6 - INFO - [Start] - [Some text]
+#' # 2016-09-21 10:53:21.6 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #' @export
-logtime <- ContextManager(start = OnStart, end = OnEnd)
+log_time <- context_manager(start = on_start, end = on_end)

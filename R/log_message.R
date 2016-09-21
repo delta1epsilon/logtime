@@ -1,16 +1,16 @@
 #' Create log function
 #'
 #' @param level A default logging level for log function
-createLogFunction <- function (level = 'DEBUG', ...) {
+create_log_function <- function (level = 'DEBUG', ...) {
     logger_level = level
 
     function (message, level = logger_level) {
-        CheckIfLevelValid(level)
+        check_if_level_valid(level)
 
         options(digits.secs = 1)
         time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
 
-        PrintLogMessage(message, time, level, ...)
+        print_log_message(message, time, level, ...)
     }
 }
 
@@ -18,27 +18,28 @@ createLogFunction <- function (level = 'DEBUG', ...) {
 #'
 #' Create log message with specific level
 #'
-#' @usage log(message, level = 'DEBUG')
+#' @usage log_message(message, level = 'DEBUG')
 #'
 #' @param message A string
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.
 #' @return Prints a message
 #'
+#' @seealso \code{\link{log_time}}
 #'
 #' @examples
 #'
 #' # create a log with message 'Some text'
-#' log('Some text')  # default level is DEBUG
+#' log_message('Some text')  # default level is DEBUG
 #'
 #' # output:
-#' # 2016-09-16 16:17:20.9 - DEBUG - [Some text]
+#' # 2016-09-21 10:55:18.8 - DEBUG - [Some text]
 #'
 #'
 #' # create the same log with changed level to INFO
-#' log('Some text', level = 'INFO')
+#' log_message('Some text', level = 'INFO')
 #'
 #' # output:
-#' # 2016-09-16 16:18:00.5 - INFO - [Some text]
+#' # 2016-09-21 10:55:38.0 - INFO - [Some text]
 #'
 #' @export
-log <- createLogFunction()
+log_message <- create_log_function()

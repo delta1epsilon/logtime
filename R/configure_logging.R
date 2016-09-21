@@ -6,10 +6,10 @@
 #' @examples
 #'
 #' # set logging level to INFO
-#' configureLogging(level = 'INFO')
+#' configure_logging(level = 'INFO')
 #'
 #' @export
-configureLogging <- function (level = 'DEBUG', file = '') {
-    SetLoggingLevel(level = level)
-    SetLoggingFile(file = file)
+configure_logging <- function (level = 'DEBUG', file = '') {
+    set_logging_level(level = level)
+    set_logging_file(file = file)
 }
