@@ -53,7 +53,7 @@ create_logger <- function (name, level, file = '') {
     check_if_level_valid(level)
 
     logger <-
-      list(log_time = context_manager(start = on_start,
+      list(log_time = create_log_time(start = on_start,
                                       end = on_end,
                                       level = level,
                                       logger_name = name,

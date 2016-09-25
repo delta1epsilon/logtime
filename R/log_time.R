@@ -86,4 +86,4 @@ on_end <- function (msg, level = NULL, ...) {
 #' # 2016-09-21 10:53:21.6 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #' @export
-log_time <- context_manager(start = on_start, end = on_end)
+log_time <- create_log_time(start = on_start, end = on_end)

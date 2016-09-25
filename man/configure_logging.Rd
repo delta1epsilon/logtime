@@ -4,20 +4,20 @@
 \alias{configure_logging}
 \title{Configure logging options}
 \usage{
-configure_logging(level = "DEBUG", file = "")
+configure_logging(threshold_level = "DEBUG", output_file = "")
 }
 \arguments{
-\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'}
+\item{threshold_level}{A threshold logging level for printing logs. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.}
 
-\item{file}{A connection, or a character string naming the file to print to.}
+\item{output_file}{A connection, or a character string naming the file to print to. By default all logs are being printed to console.}
 }
 \description{
 Configure logging options
 }
 \examples{
 
-# set logging level to INFO
-configure_logging(level = 'INFO')
+# set logging threshold level to INFO
+configure_logging(threshold_level = 'INFO')
 
 }
 

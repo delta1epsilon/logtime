@@ -105,17 +105,17 @@ Last but not least there is ```configure_logging``` option in the package which 
 The usage is:
 
 ```
-configure_logging(level = "DEBUG", file = "")
+configure_logging(threshold_level = "DEBUG", output_file = "")
 ```
 
 So, to set the package for printing only logs with levels INFO and higher (namely INFO, WARNING and ERROR) we write:
 
 ```
-configure_logging(level = 'INFO')
+configure_logging(threshold_level = 'INFO')
 ```
 
 To set the package for printing logs to *log.log* file with levels WARNING and higher we write:
 
 ```
-configure_logging(level = 'WARNING')
+configure_logging(threshold_level = 'WARNING', output_file = 'log.log')
 ```

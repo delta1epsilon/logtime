@@ -1,14 +1,14 @@
-#' Create a Context Manager
+#' Create log_time function
 #'
 #' @param start A function to be executed on start
 #' @param end A function to be executed on exit
 #'
 #' @return A function
-context_manager <- function (start = function () {},
-                            end = function () {},
-                            level = 'DEBUG',
-                            ...
-                            ) {
+create_log_time <- function (start = function () {},
+                             end = function () {},
+                             level = 'DEBUG',
+                             ...
+                             ) {
     logger_level = level
 
     function (expr, env = parent.frame(), message, level = logger_level) {
