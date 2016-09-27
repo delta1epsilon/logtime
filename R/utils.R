@@ -69,7 +69,7 @@ get_and_remove_start_time <- function () {
 #' @param level A logging level
 set_logging_level <- function (level = 'DEBUG') {
     check_if_level_valid(level)
-    
+
     assign(x = 'level', value = level, envir = .Configs)
 }
 
@@ -85,6 +85,11 @@ set_logging_file <- function (file = '') {
 #' Get logging file name from .Configs environment
 get_logging_file <- function () {
     get('file', envir = .Configs)
+}
+
+#' Get logging level name from .Configs environment
+get_logging_level <- function () {
+    get('level', envir = .Configs)
 }
 
 

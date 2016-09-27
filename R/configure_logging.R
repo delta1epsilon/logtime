@@ -1,8 +1,9 @@
 #' Configure logging options
 #'
-#' @param threshold_level A threshold logging level for printing logs. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.
-#' @param output_file A connection, or a character string naming the file to print to. By default all logs are being printed to console.
+#' @param threshold_level a string. Defines threshold level for printing logs. Should be one of 'DEBUG', 'INFO', 'WARNING' or 'ERROR'. Default to 'DEBUG'.
+#' @param output_file either a character string naming a file or a connection open for writing logs. By default logs are printed to console.
 #'
+#' @details
 #' @examples
 #'
 #' # set logging threshold level to INFO

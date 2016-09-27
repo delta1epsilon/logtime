@@ -34,7 +34,7 @@
 #'
 #' # output:
 #' # 2016-09-21 11:01:25.6 - [clean_data] - INFO - [Start] - [Some text]
-#' # 2016-09-21 11:01:26.7 - [clean_data] - INFO - [End] - [Some text] - 
+#' # 2016-09-21 11:01:26.7 - [clean_data] - INFO - [End] - [Some text] -
 #' #   [Done in 1 sec. (0 min.)]
 #'
 #'
@@ -45,11 +45,16 @@
 #'
 #' # output:
 #' # 2016-09-21 11:03:43.7 - [clean_data] - DEBUG - [Start] - [Some text]
-#' # 2016-09-21 11:03:44.8 - [clean_data] - DEBUG - [End] - [Some text] - 
+#' # 2016-09-21 11:03:44.8 - [clean_data] - DEBUG - [End] - [Some text] -
 #' #   [Done in 1 sec. (0 min.)]
 #'
 #'
 create_logger <- function (name, level, file = '') {
+
+    if (missing(level)) {
+        level <- get_logging_level()
+    }
+
     check_if_level_valid(level)
 
     logger <-
