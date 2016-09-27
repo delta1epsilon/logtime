@@ -87,6 +87,11 @@ get_logging_file <- function () {
     get('file', envir = .Configs)
 }
 
+#' Get logging level name from .Configs environment
+get_logging_level <- function () {
+    get('level', envir = .Configs)
+}
+
 
 #' Compare logging levels
 #'
