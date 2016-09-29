@@ -1,6 +1,9 @@
 #' Create log function
 #'
 #' @param level A default logging level for log function
+#' @param ... Aditionla argumets passed to log output
+#'
+#' @return a function
 create_log_function <- function (level = 'DEBUG', ...) {
     logger_level = level
 
@@ -17,8 +20,6 @@ create_log_function <- function (level = 'DEBUG', ...) {
 #' Print Log message
 #'
 #' Create log message with specific level
-#'
-#' @usage log_message(message, level = 'DEBUG')
 #'
 #' @param message A string
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.

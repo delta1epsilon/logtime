@@ -6,6 +6,7 @@
 #' @param start_or_end Wheter NULL, 'Start' or 'End'
 #' @param exec_time_sec Duration of code execution in seconds
 #' @param indentation_level An integer
+#' @param level A string, NULL by default
 #' @param logger_name A string
 #'
 #' @return A list
