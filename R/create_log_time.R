@@ -2,7 +2,8 @@
 #'
 #' @param start A function to be executed on start
 #' @param end A function to be executed on exit
-#'
+#' @param level A string
+#' @param ... aditional argumets pass to log output
 #' @return A function
 create_log_time <- function (start = function () {},
                              end = function () {},

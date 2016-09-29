@@ -2,6 +2,8 @@
 #' expresion in context of logtime
 #'
 #' @param msg A message to print in log
+#' @param level A string, NULL by default
+#' @param ... pass aditional info to construct log ouput
 on_start <- function (msg, level = NULL, ...) {
     options(digits.secs = 1)
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
@@ -23,6 +25,8 @@ on_start <- function (msg, level = NULL, ...) {
 #' expresion in context of logtime
 #'
 #' @param msg A message to print in log
+#' @param level A string, NULL by default
+#' @param ... pass aditional info to construct log ouput
 on_end <- function (msg, level = NULL, ...) {
     end_time <- Sys.time()
 
@@ -52,16 +56,22 @@ on_end <- function (msg, level = NULL, ...) {
 #'
 #' Time your code in easy, efficient and nice looking way
 #'
-#' @usage log_time(message, level = 'DEBUG') \%<\% \{
-#'    expression
-#' \}
-#'
-#' @param message A string describing context of code
+#' @param message A string describing context of code. Can't be empty.
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
 #'
-#' @return Prints 2 log messages with start, end of code execution and time of code execution
+#' @return Start and end messages. Execution time appended to the end message.
 #'
-#' @seealso \code{\link{log_message}}
+#' @seealso \code{\link{create_logger}}, \code{\link{\%<\%}}
+#'
+#' @details log_time has special call that requires using pipe operator  \code{\link{\%<\%}}. It can be useful when dealing with multiple complex steps of perocessing data (e.g. data munging, etc.)
+#'
+#' log_time is can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
+#'  which is not possible to do with system.time. Besides, it makes script a bit more organized and easier to read.
+#'
+#' By default, log_time will print messages to console. Use configure_logging to overwrite this behaviour. Another option is to use log_time in context of logger. See \code{\link{create_logger}} for more details.
+#' Both messages have pattern: [date_time] - [reference (if called in logger context)] - [level] - [message] - [execution time (appear only in end message)]
+#' Curently there is no native way to overwrite output style.
+#'
 #'
 #' @examples
 #'
