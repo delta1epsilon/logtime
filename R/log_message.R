@@ -1,10 +1,9 @@
-#' Create log function
-#'
-#' @param level A default logging level for log function
-#' @param ... Aditionla argumets passed to log output
-#'
-#' @return a function
-create_log_function <- function (level = 'DEBUG', ...) {
+# Create log function
+#
+# @param level A default logging level for log function
+# @param logger_name A string
+# @param file A string
+create_log_function <- function (level = 'DEBUG', logger_name = NULL, file = '') {
     logger_level = level
 
     function (message, level = logger_level) {
@@ -12,8 +11,8 @@ create_log_function <- function (level = 'DEBUG', ...) {
 
         time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%S')
 
-        log <- get_log(message, time = time, level = level, ...)
-        print_log(log, ...)
+        log <- get_log(message, time = time, level = level, logger_name = logger_name, file = file)
+        print_log(log, logger_name = logger_name, file = file)
     }
 }
 

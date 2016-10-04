@@ -7,17 +7,28 @@
 configure_logging(threshold_level = "DEBUG", output_file = "")
 }
 \arguments{
-\item{threshold_level}{A threshold logging level for printing logs. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.}
+\item{threshold_level}{a string. Defines threshold level for printing logs. Should be one of 'DEBUG', 'INFO', 'WARNING' or 'ERROR'. Default to 'DEBUG'.}
 
-\item{output_file}{A connection, or a character string naming the file to print to. By default all logs are being printed to console.}
+\item{output_file}{either a character string naming a file or a connection open for writing logs. By default logs are printed to console.}
 }
 \description{
 Configure logging options
+}
+\details{
+\code{configure_logging} sets global behaviour for logging with logtime package. Basically is a filter of how detailed logs appear in output.
+
+threshold_level - defines the lowes level that appears in log output. Possible levels are 'DEBUG', 'INFO', 'WARNING' and 'ERROR' and form a kind of hierarchy with lowest level 'DEBUG'.
+If set to 'INFO' every log with level 'INFO' or higher will be in output and log with 'DEBUG' level will not show up. This can be rely useful when there is a need to shorten log output.
+
+output_file tells where to store logs. By default prints to console. If file path is given, all loging information is apended unless owerwritten in \code{create_logger} function.
 }
 \examples{
 
 # set logging threshold level to INFO
 configure_logging(threshold_level = 'INFO')
 
+}
+\seealso{
+\code{\link{create_logger}}
 }
 

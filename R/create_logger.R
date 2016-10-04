@@ -48,8 +48,6 @@
 #'      }
 #' }
 #'
-
-
 create_logger <- function (name, level, file = '') {
     check_if_level_valid(level)
 
@@ -66,5 +64,3 @@ create_logger <- function (name, level, file = '') {
     class(logger) <- append(class(logger), 'Logger')
     return(logger)
 }
-
-

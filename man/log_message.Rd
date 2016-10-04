@@ -4,7 +4,7 @@
 \alias{log_message}
 \title{Print Log message}
 \usage{
-log_message(message, level = 'DEBUG')
+log_message(message, level = logger_level)
 }
 \arguments{
 \item{message}{A string}
