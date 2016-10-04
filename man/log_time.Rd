@@ -4,13 +4,11 @@
 \alias{log_time}
 \title{Track time of code execution}
 \usage{
-log_time(expr, env = parent.frame(), message, level = logger_level)
+log_time(message, level = 'DEBUG') \%<\% \{
+   expression
+\}
 }
 \arguments{
-\item{expr}{An expression}
-
-\item{env}{An environment for expression exucution}
-
 \item{message}{A string describing context of code. Can't be empty.}
 
 \item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.}
@@ -57,4 +55,3 @@ log_time('Some text', level = 'INFO') \%<\% {
 \seealso{
 \code{\link{create_logger}}, \code{\link{\%<\%}}
 }
-
