@@ -10,10 +10,10 @@ create_log_function <- function (level = 'DEBUG', ...) {
     function (message, level = logger_level) {
         check_if_level_valid(level)
 
-        options(digits.secs = 1)
-        time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
+        time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%S')
 
-        print_log_message(message, time, level, ...)
+        log <- get_log(message, time = time, level = level, ...)
+        print_log(log, ...)
     }
 }
 

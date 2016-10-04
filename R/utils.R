@@ -83,21 +83,13 @@ set_logging_file <- function (file = '') {
 
 
 #' Get logging file name from .Configs environment
-#' @return  Output log file settings
 get_logging_file <- function () {
     get('file', envir = .Configs)
-}
-
-#' Get logging level name from .Configs environment
-#' @return  Level settings
-get_logging_level <- function () {
-    get('level', envir = .Configs)
 }
 
 
 #' Compare logging levels
 #'
-#' @param level A logging level
 #' @return TRUE in case when a print has to be done
 compare_level <- function (level) {
     session_level <- get('level', envir = .Configs)
@@ -121,11 +113,12 @@ compare_level <- function (level) {
 
 
 #' Throw an error when logging level is not valid
+#'
 #' @param level A logging level
 check_if_level_valid <- function (level) {
     valid_levels <- c('DEBUG', 'INFO', 'WARNING', 'ERROR')
 
     if (!(level %in% valid_levels)) {
-        stop('Logging level is not valid. Should be one of \n DEBUG, INFO, WARNING or ERROR')
+        stop('Logging level is not valid. Should be one of \n DEBUG, INFO, WARNING, ERROR', call. = FALSE)
     }
 }

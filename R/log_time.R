@@ -5,19 +5,19 @@
 #' @param level A string, NULL by default
 #' @param ... pass aditional info to construct log ouput
 on_start <- function (msg, level = NULL, ...) {
-    options(digits.secs = 1)
-    time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%OS')
+    time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%S')
 
     # save start time of execution to .Timing  environment
     # and get indentation level
     indentation_level <- set_start_time()
 
-    print_logtime_message(msg, time,
-                          start_or_end = 'start',
-                          indentation_level = indentation_level,
-                          level = level,
-                          ...
-                          )
+    log <- get_log(msg, time,
+                   start_or_end = 'Start',
+                   indentation_level = indentation_level,
+                   level = level,
+                   ...
+                   )
+   print_log(log, ...)
 }
 
 
@@ -30,8 +30,7 @@ on_start <- function (msg, level = NULL, ...) {
 on_end <- function (msg, level = NULL, ...) {
     end_time <- Sys.time()
 
-    options(digits.secs = 1)
-    time <- format(end_time, format = '%Y-%m-%d %H:%M:%OS')
+    time <- format(end_time, format = '%Y-%m-%d %H:%M:%S')
 
     # fetch start time of execurion
     # and indentation level
@@ -42,13 +41,14 @@ on_end <- function (msg, level = NULL, ...) {
     # calculate execution time
     exec_time_sec <- difftime(end_time, start_time, units = 'secs')
 
-    print_logtime_message(msg, time,
-                          start_or_end = 'end',
-                          exec_time_sec = exec_time_sec,
-                          indentation_level = indentation_level,
-                          level = level,
-                          ...
-                          )
+    log <- get_log(msg, time,
+                   start_or_end = 'End',
+                   exec_time_sec = exec_time_sec,
+                   indentation_level = indentation_level,
+                   level = level,
+                   ...
+                   )
+    print_log(log, ...)
 }
 
 
