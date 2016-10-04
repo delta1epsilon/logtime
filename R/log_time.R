@@ -58,6 +58,8 @@ on_end <- function (msg, level = NULL, ...) {
 #'
 #' @param message A string describing context of code. Can't be empty.
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
+#' @param expr An expression
+#' @param env An environment for expression exucution
 #'
 #' @return Start and end messages. Execution time appended to the end message.
 #'

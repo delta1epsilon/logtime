@@ -7,6 +7,10 @@
 log_time(expr, env = parent.frame(), message, level = logger_level)
 }
 \arguments{
+\item{expr}{An expression}
+
+\item{env}{An environment for expression exucution}
+
 \item{message}{A string describing context of code. Can't be empty.}
 
 \item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.}
