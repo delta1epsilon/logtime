@@ -25,3 +25,4 @@ create_log_time <- function (start = function () {},
         end(message, level, ...)
     }
 }
+

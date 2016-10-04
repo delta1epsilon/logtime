@@ -17,13 +17,11 @@ create_log_function <- function (level = 'DEBUG', ...) {
     }
 }
 
-#' Print Log message
-#'
-#' Create log message with specific level
+#' Create log message
 #'
 #' @param message A string
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.
-#' @return Prints a message
+#' @return Prints message to console or file. This can be controlled with \code{configure_logging} or \code{create_logger} if \code{log_message} is used inside logger context.
 #'
 #' @seealso \code{\link{log_time}}
 #'

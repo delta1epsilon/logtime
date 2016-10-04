@@ -52,26 +52,27 @@ on_end <- function (msg, level = NULL, ...) {
 }
 
 
-#' Track time of code execution
-#'
-#' Time your code in easy, efficient and nice looking way
-#'
+#' Track time of code execution in easy, efficient and nice looking way
+#' @description NULL
 #' @param message A string describing context of code. Can't be empty.
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
 #'
-#' @return Start and end messages. Execution time appended to the end message.
+#' @return Start and end messages. Execution time is appended to the end message.
+#'
+#' Pattern for start msg: [Date Time] - [Logger Name (if called in logger context)] - [Level] - [Start] - [Message]
+#'
+#' Pattern for end msg: [Date Time] - [Logger Name (if called in logger context)] - [Level] - [End] - [Message] - [Execution Time]
 #'
 #' @seealso \code{\link{create_logger}}, \code{\link{\%<\%}}
 #'
-#' @details log_time has special call that requires using pipe operator  \code{\link{\%<\%}}. It can be useful when dealing with multiple complex steps of perocessing data (e.g. data munging, etc.)
+#' @details  \code{log_time} can be called dicetly with or without reference point created with \code{create_logger} function.
+#' The only difference is in output message.
+#' If called directly, the block that reprent reference point is empty otherwise it will contain the logger name.
 #'
-#' log_time is can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
-#'  which is not possible to do with system.time. Besides, it makes script a bit more organized and easier to read.
+#' \code{log_time} can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
+#'  which is not possible to do with system.time. Besides, it makes script much more organized and easier to read.
 #'
-#' By default, log_time will print messages to console. Use configure_logging to overwrite this behaviour. Another option is to use log_time in context of logger. See \code{\link{create_logger}} for more details.
-#' Both messages have pattern: [date_time] - [reference (if called in logger context)] - [level] - [message] - [execution time (appear only in end message)]
-#' Curently there is no native way to overwrite output style.
-#'
+#' By default, log_time will print messages to console. This can be overwritten by \code{configure_logging} or, if used inside logger context, by \code{create_logger} function.
 #'
 #' @examples
 #'
