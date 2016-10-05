@@ -52,8 +52,8 @@ on_end <- function (msg, level = NULL, ...) {
 }
 
 
-#' Track time of code execution in easy, efficient and nice looking way
-#' @description NULL
+#' Log and Time
+#' @description Track time of code execution in easy, efficient and nice looking way
 #' @param message A string describing context of code. Can't be empty.
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
 #' @param expr An expression
