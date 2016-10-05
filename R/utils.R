@@ -5,11 +5,11 @@
 .Configs <- new.env()
 
 
-#' Set Start time of code execution
-#'
-#' Create variable "start_time_ + index" in .Timing env
-#'
-#' @return indentation level (An integer)
+# Set Start time of code execution
+#
+# Create variable "start_time_ + index" in .Timing env
+#
+# @return indentation level (An integer)
 set_start_time <- function () {
     env_ls <- ls(.Timing)
 
@@ -34,11 +34,11 @@ set_start_time <- function () {
 }
 
 
-#' Get And remove Start time of code execution
-#'
-#' Get and Remove variable "start_time_..." from .Timing env
-#'
-#' @return A list with start_time and indentation level (An integer)
+# Get And remove Start time of code execution
+#
+# Get and Remove variable "start_time_..." from .Timing env
+#
+# @return A list with start_time and indentation level (An integer)
 get_and_remove_start_time <- function () {
     env_ls <- ls(.Timing)
 
@@ -64,9 +64,9 @@ get_and_remove_start_time <- function () {
 }
 
 
-#' Set logging level
-#'
-#' @param level A logging level
+# Set logging level
+#
+# @param level A logging level
 set_logging_level <- function (level = 'DEBUG') {
     check_if_level_valid(level)
 
@@ -74,23 +74,29 @@ set_logging_level <- function (level = 'DEBUG') {
 }
 
 
-#' Set logging file
-#'
-#' @param file A connection, or a character string naming the file to print to.
+# Set logging file
+#
+# @param file A connection, or a character string naming the file to print to.
 set_logging_file <- function (file = '') {
     assign(x = 'file', value = file, envir = .Configs)
 }
 
-
-#' Get logging file name from .Configs environment
+# Get logging file name from .Configs environment
+# @return  Output log file settings
 get_logging_file <- function () {
     get('file', envir = .Configs)
 }
 
+# Get logging level name from .Configs environment
+# @return  Level settings
+get_logging_level <- function () {
+    get('level', envir = .Configs)
+}
 
-#' Compare logging levels
-#'
-#' @return TRUE in case when a print has to be done
+# Compare logging levels
+#
+# @param level A logging level
+# @return TRUE in case when a print has to be done
 compare_level <- function (level) {
     session_level <- get('level', envir = .Configs)
 
@@ -111,10 +117,8 @@ compare_level <- function (level) {
     }
 }
 
-
-#' Throw an error when logging level is not valid
-#'
-#' @param level A logging level
+# Throw an error when logging level is not valid
+# @param level A logging level
 check_if_level_valid <- function (level) {
     valid_levels <- c('DEBUG', 'INFO', 'WARNING', 'ERROR')
 

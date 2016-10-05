@@ -7,7 +7,7 @@ Authors@R: c(
     person("Andriy", "Muzychuk", role = "aut", email = "amuzychuk@gmail.com")
     )
 Description: The package provides possibility of code logging and timing in nice looking and efficient way.
-License: file license
+License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 5.0.1
 Suggests: testthat,

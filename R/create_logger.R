@@ -48,8 +48,6 @@
 #'# 2016-10-02 23:17:16.9 - [clean_data] - INFO - [Start] - [Transformig Data]
 #'# 2016-10-02 23:17:17.9 - [clean_data] - INFO - [End] - [Transformig Data] - [Done in 1 sec. (0 min.)]
 #'# 2016-10-02 23:17:17.9 - [clean_data] - INFO - [End] - [Data Preparation] - [Done in 1.5 sec. (0 min.)]
-
-
 create_logger <- function (name, level, file = '') {
     check_if_level_valid(level)
 
@@ -66,5 +64,3 @@ create_logger <- function (name, level, file = '') {
     class(logger) <- append(class(logger), 'Logger')
     return(logger)
 }
-
-

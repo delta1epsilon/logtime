@@ -1,9 +1,9 @@
-#' Print starting log with message before execution of
-#' expresion in context of logtime
-#'
-#' @param msg A message to print in log
-#' @param level A string, NULL by default
-#' @param ... pass aditional info to construct log ouput
+# Print starting log with message before execution of
+# expresion in context of logtime
+#
+# @param msg A message to print in log
+# @param level A string, NULL by default
+# @param ... pass aditional info to construct log ouput
 on_start <- function (msg, level = NULL, ...) {
     time <- format(Sys.time(), format = '%Y-%m-%d %H:%M:%S')
 
@@ -21,12 +21,12 @@ on_start <- function (msg, level = NULL, ...) {
 }
 
 
-#' Print ending log with message and exec time after execution of
-#' expresion in context of logtime
-#'
-#' @param msg A message to print in log
-#' @param level A string, NULL by default
-#' @param ... pass aditional info to construct log ouput
+# Print ending log with message and exec time after execution of
+# expresion in context of logtime
+#
+# @param msg A message to print in log
+# @param level A string, NULL by default
+# @param ... pass aditional info to construct log ouput
 on_end <- function (msg, level = NULL, ...) {
     end_time <- Sys.time()
 
@@ -56,6 +56,8 @@ on_end <- function (msg, level = NULL, ...) {
 #' @description NULL
 #' @param message A string describing context of code. Can't be empty.
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
+#' @param expr An expression
+#' @param env An environment for expression exucution
 #'
 #' @return Start and end messages. Execution time is appended to the end message.
 #'

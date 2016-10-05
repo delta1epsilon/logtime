@@ -9,15 +9,25 @@ log_time(message, level = 'DEBUG') \%<\% \{
 \}
 }
 \arguments{
-\item{message}{A string describing context of code}
+\item{message}{A string describing context of code. Can't be empty.}
 
 \item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.}
 }
 \value{
-Prints 2 log messages with start, end of code execution and time of code execution
+Start and end messages. Execution time appended to the end message.
 }
 \description{
 Time your code in easy, efficient and nice looking way
+}
+\details{
+log_time has special call that requires using pipe operator  \code{\link{\%<\%}}. It can be useful when dealing with multiple complex steps of perocessing data (e.g. data munging, etc.)
+
+log_time is can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
+ which is not possible to do with system.time. Besides, it makes script a bit more organized and easier to read.
+
+By default, log_time will print messages to console. Use configure_logging to overwrite this behaviour. Another option is to use log_time in context of logger. See \code{\link{create_logger}} for more details.
+Both messages have pattern: [date_time] - [reference (if called in logger context)] - [level] - [message] - [execution time (appear only in end message)]
+Curently there is no native way to overwrite output style.
 }
 \examples{
 
@@ -43,6 +53,5 @@ log_time('Some text', level = 'INFO') \%<\% {
 
 }
 \seealso{
-\code{\link{log_message}}
+\code{\link{create_logger}}, \code{\link{\%<\%}}
 }
-

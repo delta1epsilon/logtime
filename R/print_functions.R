@@ -1,14 +1,16 @@
-#' Get log
-#'
-#' @param msg A string
-#' @param time Time of the log to be printed
-#' @param file Path to a file
-#' @param start_or_end Wheter NULL, 'Start' or 'End'
-#' @param exec_time_sec Duration of code execution in seconds
-#' @param indentation_level An integer
-#' @param logger_name A string
-#'
-#' @return A list
+# Get log
+#
+# @param msg A string
+# @param time Time of the log to be printed
+# @param file Path to a file
+# @param start_or_end Wheter NULL, 'Start' or 'End'
+# @param exec_time_sec Duration of code execution in seconds
+# @param indentation_level An integer
+# @param level A string, NULL by default
+# @param logger_name A string
+# @param level A string
+#
+# @return A list
 get_log <- function (msg,
                      time,
                      start_or_end = NULL,
@@ -51,10 +53,11 @@ get_log <- function (msg,
 }
 
 
-#' Print log
-#'
-#' @param log A list
-#' @param file A connection, or a character string naming the file to print to
+# Print log
+#
+# @param log A list
+# @param file A connection, or a character string naming the file to print to
+# @param logger_name A string
 print_log <- function (log, file = '', logger_name = NULL) {
     if (file == '' & get_logging_file() != '') file <- get_logging_file()
 

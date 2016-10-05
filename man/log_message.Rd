@@ -4,7 +4,7 @@
 \alias{log_message}
 \title{Print Log message}
 \usage{
-log_message(message, level = 'DEBUG')
+log_message(message, level = "DEBUG")
 }
 \arguments{
 \item{message}{A string}
@@ -36,4 +36,3 @@ log_message('Some text', level = 'INFO')
 \seealso{
 \code{\link{log_time}}
 }
-
