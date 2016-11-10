@@ -14,6 +14,10 @@
 #' # set logging threshold level to INFO
 #' configure_logging(threshold_level = 'INFO')
 #'
+#' # set logging threshold level to WARNING and
+#' # set writing all logs to 'log.log' file
+#' configure_logging(threshold_level = 'WARNING', output_file = 'log.log')
+#'
 #' @export
 #'
 configure_logging <- function (threshold_level = 'DEBUG', output_file = '') {

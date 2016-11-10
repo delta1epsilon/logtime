@@ -52,29 +52,26 @@ on_end <- function (msg, level = NULL, ...) {
 }
 
 
-#' Log and Time
+#' Track time of code execution
+#'
 #' @description Track time of code execution in easy, efficient and nice looking way
+#'
 #' @param message A string describing context of code. Can't be empty.
 #' @param level A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.
 #' @param expr An expression
 #' @param env An environment for expression exucution
 #'
-#' @return Start and end messages. Execution time is appended to the end message.
-#'
-#' Pattern for start msg: [Date Time] - [Logger Name (if called in logger context)] - [Level] - [Start] - [Message]
-#'
-#' Pattern for end msg: [Date Time] - [Logger Name (if called in logger context)] - [Level] - [End] - [Message] - [Execution Time]
+#' @return Start and End messages. Execution time is appended to the End message.
 #'
 #' @seealso \code{\link{create_logger}}, \code{\link{\%<\%}}
 #'
-#' @details  \code{log_time} can be called dicetly with or without reference point created with \code{create_logger} function.
-#' The only difference is in output message.
-#' If called directly, the block that reprent reference point is empty otherwise it will contain the logger name.
+#' @details  
+#' \code{log_time} has special call that requires using pipe operator  \code{\link{\%<\%}}.
 #'
-#' \code{log_time} can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
-#'  which is not possible to do with system.time. Besides, it makes script much more organized and easier to read.
+#' \code{log_time} can handle nested calls and returns execution times of nested parts as well as overall execution time.
+#'  Besides, it makes script much more organized and readable.
 #'
-#' By default, log_time will print messages to console. This can be overwritten by \code{configure_logging} or, if used inside logger context, by \code{create_logger} function.
+#' By default, \code{log_time} will print messages to console. This can be overwritten by \code{configure_logging} or, if used inside logger context, by \code{create_logger} function.
 #'
 #' @examples
 #'
@@ -83,20 +80,18 @@ on_end <- function (msg, level = NULL, ...) {
 #' log_time('Some text') %<% {
 #'    Sys.sleep(1)
 #' }
-#'
 #' # output:
-#' # 2016-09-21 10:54:31.8 - DEBUG - [Start] - [Some text]
-#' # 2016-09-21 10:54:32.9 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+#' # 2016-09-21 10:54:31 - DEBUG - [Start] - [Some text]
+#' # 2016-09-21 10:54:32 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #'
 #' # create the same logtime with changed level to INFO
 #' log_time('Some text', level = 'INFO') %<% {
 #'    Sys.sleep(1)
 #' }
-#'
 #' # output:
-#' # 2016-09-21 10:53:20.6 - INFO - [Start] - [Some text]
-#' # 2016-09-21 10:53:21.6 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+#' # 2016-09-21 10:53:20 - INFO - [Start] - [Some text]
+#' # 2016-09-21 10:53:21 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #' @export
 log_time <- create_log_time(start = on_start, end = on_end)

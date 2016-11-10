@@ -14,20 +14,18 @@ log_time(message, level = 'DEBUG') \%<\% \{
 \item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is DEBUG.}
 }
 \value{
-Start and end messages. Execution time appended to the end message.
+Start and End messages. Execution time is appended to the End message.
 }
 \description{
-Time your code in easy, efficient and nice looking way
+Track time of code execution in easy, efficient and nice looking way
 }
 \details{
-log_time has special call that requires using pipe operator  \code{\link{\%<\%}}. It can be useful when dealing with multiple complex steps of perocessing data (e.g. data munging, etc.)
+\code{log_time} has special call that requires using pipe operator  \code{\link{\%<\%}}.
 
-log_time is can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
- which is not possible to do with system.time. Besides, it makes script a bit more organized and easier to read.
+\code{log_time} can handle nested calls and returns execution times of nested parts as well as overall execution time.
+ Besides, it makes script much more organized and readable.
 
-By default, log_time will print messages to console. Use configure_logging to overwrite this behaviour. Another option is to use log_time in context of logger. See \code{\link{create_logger}} for more details.
-Both messages have pattern: [date_time] - [reference (if called in logger context)] - [level] - [message] - [execution time (appear only in end message)]
-Curently there is no native way to overwrite output style.
+By default, \code{log_time} will print messages to console. This can be overwritten by \code{configure_logging} or, if used inside logger context, by \code{create_logger} function.
 }
 \examples{
 
@@ -36,22 +34,21 @@ Curently there is no native way to overwrite output style.
 log_time('Some text') \%<\% {
    Sys.sleep(1)
 }
-
 # output:
-# 2016-09-21 10:54:31.8 - DEBUG - [Start] - [Some text]
-# 2016-09-21 10:54:32.9 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+# 2016-09-21 10:54:31 - DEBUG - [Start] - [Some text]
+# 2016-09-21 10:54:32 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 
 
 # create the same logtime with changed level to INFO
 log_time('Some text', level = 'INFO') \%<\% {
    Sys.sleep(1)
 }
-
 # output:
-# 2016-09-21 10:53:20.6 - INFO - [Start] - [Some text]
-# 2016-09-21 10:53:21.6 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+# 2016-09-21 10:53:20 - INFO - [Start] - [Some text]
+# 2016-09-21 10:53:21 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
 
 }
 \seealso{
 \code{\link{create_logger}}, \code{\link{\%<\%}}
 }
+

@@ -9,54 +9,53 @@ create_logger(name, level, file = "")
 \arguments{
 \item{name}{A logger name}
 
-\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default to 'DEBUG'}
+\item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default to 'DEBUG'.}
 
-\item{file}{either a character string naming a file or a connection open for writing logs. By default logs are printed to console.}
+\item{file}{Either a path to a file or a connection. By default logs are printed to console.}
 }
 \value{
-an obgect of class 'logger' - list containing two components:
- \code{log_time} function that alows to treck execution time (see Details)
- \code{log_message} a prints custom message in context of logger
+An object of class 'Logger' - list with two attributes \code{log_time} and \code{log_message}.
+\code{\link{log_time}} allows to track execution time in context of logger.
+\code{\link{log_message}} prints log message in context of logger.
 }
 \description{
-create_logger creates an obgect of class 'logger' with two methods log_time and log_message.
+Create an object of class 'Logger' with two attributes \code{log_time} and \code{log_message}
 }
 \details{
-create_logger create a reference point in logging process and consists of two methods:
- \code{log_time} and \code{log_message}. log_time alows to keep track of execution time in context of logger name reference and can handle nested calls.
+\code{create_logger} creates a reference point in logging process. If it's level argument is higher or equal to threshold_level argument set inside \code{configure_logging},
+the log will be printed to console or log file, otherwise a log will not show up in the output.
 
- log_time is can handle nested calls and returns execution times of nested parts as well as overall execution time for the whole block
- which is not possible to do with system.time. Besides, it makes script a bit more organized and easier to read.
-
-log_message is a wrapper to cat but can be heandy when used in context of loger.
-
-Both log_time and log_message can be called directly without a need to create logger reference. In this scenario log_time can be useful when used in intereactive analysis.
+NOTE that if file argument is specified, it overwrites output_file config defined inside \code{configure_logging} function.
 }
 \note{
-\code{log_time} function should be called with custom pipe operator `%<%` that differes from one defined in magrittr package.
+Both \code{log_time} and \code{log_message} are functions that can be called directly without a need to create 'logger' reference.
 }
 \examples{
-# create an object of class Logger with name 'clean_data' and default logging level INFO
+# create an object of class 'Logger' with name 'clean_data' and default logging level INFO
 logger <- create_logger(name = 'clean_data', level = 'INFO')
 
 # create log in context of logger 'clean_data':
 logger$log_message('Some text')
-# example output:
 # 2016-09-21 10:59:22 - [clean_data] - INFO - [Some text]
 
 # or track execution time in context of logger clean_data':
-logger$log_time('Data Preparation') \%<\% {
-     logger$log_time('Removing with NA') \%<\% {
+logger$log_time('Cleaning') \%<\% {
+     logger$log_time('Removing NA') \%<\% {
          # code to remvoe NA
          Sys.sleep(0.5)
      }
 
-     logger$log_time('Transformig Data') \%<\% {
+     logger$log_time('Transforming') \%<\% {
          # code to transform data
          Sys.sleep(1)
      }
 }
-
+# 2016-10-02 23:17:16 - [clean_data] - INFO - [Start] - [Cleaning]
+#  2016-10-02 23:17:16 - [clean_data] - INFO - [Start] - [Removing NA]
+#  2016-10-02 23:17:16 - [clean_data] - INFO - [End] - [Removing NA] - [Done in 0.5 sec. (0 min.)]
+#  2016-10-02 23:17:16 - [clean_data] - INFO - [Start] - [Transforming]
+#  2016-10-02 23:17:17 - [clean_data] - INFO - [End] - [Transforming] - [Done in 1 sec. (0 min.)]
+# 2016-10-02 23:17:17 - [clean_data] - INFO - [End] - [Cleaning] - [Done in 1.5 sec. (0 min.)]
 }
 \seealso{
 \code{\link{configure_logging}}, \code{\link{log_time}}, \code{\link{log_message}}

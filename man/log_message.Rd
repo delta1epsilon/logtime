@@ -4,7 +4,7 @@
 \alias{log_message}
 \title{Print Log message}
 \usage{
-log_message(message, level = "DEBUG")
+log_message(message, level = logger_level)
 }
 \arguments{
 \item{message}{A string}
@@ -12,27 +12,26 @@ log_message(message, level = "DEBUG")
 \item{level}{A logging level. One of 'DEBUG', 'INFO', 'WARNING', 'ERROR'. Default is 'DEBUG'.}
 }
 \value{
-Prints a message
+Prints log to console or file. This can be controlled with \code{configure_logging} or \code{create_logger} if \code{log_message} is used inside logger context.
 }
 \description{
-Create log message with specific level
+Print Log message
 }
 \examples{
 
 # create a log with message 'Some text'
 log_message('Some text')  # default level is DEBUG
-
 # output:
-# 2016-09-21 10:55:18.8 - DEBUG - [Some text]
+# 2016-09-21 10:55:18 - DEBUG - [Some text]
 
 
 # create the same log with changed level to INFO
 log_message('Some text', level = 'INFO')
-
 # output:
-# 2016-09-21 10:55:38.0 - INFO - [Some text]
+# 2016-09-21 10:55:38 - INFO - [Some text]
 
 }
 \seealso{
 \code{\link{log_time}}
 }
+
