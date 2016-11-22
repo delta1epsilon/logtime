@@ -148,38 +148,103 @@ log_time('Random Numbers Generation', level = "WARNING") %<% {
 }
 ```
 
-
-
 ##Inside Loop
 
-```{r eval=F, }
-configure_logging(threshold_level = "DEBUG")
-x <- numeric(3)
+### Example with error
+Consider toy example where there is an error at secont iteration. Before we run we need to make sure threshold level is configured according to level inside log_time function, let set it to DEBUG. 
 
+```{r}
+configure_logging(threshold_level = "DEBUG")
+```
+
+
+```{r eval=F}
+x <- numeric(3)
 for(i in 1:3) {
     msg <- paste0("iter ", i)
     log_time(msg) %<% {
-        if (i %% 2 == 0) {
-            x[i] <- v
+       if (i %% 2 == 0) {
+            x[i] <- v # v is unnown and loop will stop at second iteration
         } else {
             x[i] <- runif(1)
             Sys.sleep(x[i])
-        }
+        } 
     }
 }
 
 ```
 
+When we run above script we will get following output:
 ```
-           2016-11-20 17:49:11 - DEBUG - [Start] - [iter 1]
-           2016-11-20 17:49:12 - DEBUG - [End] - [iter 1] - [Done in 0.7 sec. (0 min.)]
-           2016-11-20 17:49:12 - DEBUG - [Start] - [iter 2]
+ 2016-11-20 17:49:11 - DEBUG - [Start] - [iter 1]
+ 2016-11-20 17:49:12 - DEBUG - [End] - [iter 1] - [Done in 0.7 sec. (0 min.)]
+ 2016-11-20 17:49:12 - DEBUG - [Start] - [iter 2]
 
 Error in eval(expr, envir, enclos) : object 'v' not found
 ```
+Which is nice since we got an idea at which step our loop crashes. Well, if we dont want loop to stop when crashes we can use trycatch concept or we can use *safely* function from ```purrr``` package.
+Lets write a simple function for logging iterations: 
 
-##Create Logger
+```{r}
+log_iter <- function(iter, FUN, ...) {
+    msg <- paste0("Iter ", iter)
+    log_time(msg) %<% {
+       z <- FUN(iter, ...)
+    }
+    return(z)
+}
 
-when usefull
-example 
+log_iter_safe <- purrr::safely(log_iter)
+
+```
+
+log_iter function takes two arguments iter and FUN. Adtional parameters to pass to FUN goes in ... .One requrement to FUN is that it need to have iter as first paramenter. 
+
+Consider toy example described above and lets wrap calculation at some iteration into a function:
+```{r}
+f <- function(i, v) {
+     if (i %% 2 == 0) {
+            z <- v
+        } else {
+            z <- runif(1)
+            Sys.sleep(z)
+        }
+    return(z)
+}
+```
+
+
+```{r}
+log_iter(1, f)
+```
+
+When argument v in function f is not set we'll get an error. Lets examine output with using log_iter_safely:
+```{r}
+x <- list()
+
+for(i in 1:3) {
+   x <- append(x, log_iter_safe(i, FUN = f))
+}
+
+x
+```
+
+
+```{r}
+sapply(1:3, log_iter_safe, f, v = 1)
+```
+### Lgging Foreach loop
+
+```{r}
+suppressPackageStartupMessages(library(foreach))
+
+x <- foreach(i = 1:3) %do% {
+    log_iter_safe(i, f, v)
+}
+
+```
+
+```{r}
+lapply(x, `[[`, "result")
+```
 
