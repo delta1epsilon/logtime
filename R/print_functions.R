@@ -21,8 +21,13 @@ get_log <- function (msg,
                      file = ''
                      ) {
      format_log_element <- function (element) {
-         if (!is.null(element)) paste0('[', element, ']')
-         else NULL
+        if (is.null(element)) {
+            return(NULL)
+        } else if (element == 'End') {
+            return(paste0('[', element, '  ]'))    
+        } else {
+            return(paste0('[', element, ']'))
+        }
      }
 
      # initialize log
