@@ -36,7 +36,15 @@
 
     # run expression
     output <-  # assign to dummy variable to avoid unnecessar output
-        eval(do.call(func, arguments),
-             envir = parent
-             )
+        tryCatch({  # to avoid wrong indentation after errors
+            eval(do.call(func, arguments),
+                 envir = parent
+                 )
+        }, error = function (err) {
+            # clean up .Timing environment 
+            rm(list = ls(.Timing), envir = .Timing)
+            
+            # throw an error from "try" part
+            stop(err)
+        })
 }
