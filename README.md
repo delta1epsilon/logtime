@@ -10,6 +10,9 @@ logtime: R package for logging and timing
 
 ## logtime package overview
 
+
+The idea of the package was inspired by function *logtime* from python library called [dslib](https://github.com/itdxer/dslib).
+
 logtime package consists of just four functions *log_time*, *log_message*, *create_logger* and *configure_logging*. The functions names are self-explaining.
 
 ### `log_time`
@@ -21,7 +24,7 @@ log_time('message', level = 'DEBUG') %<% {
    # expression
 }
 # 2016-10-12 12:31:47 - DEBUG - [Start] - [message]
-# 2016-10-12 12:31:47 - DEBUG - [End] - [message] - [Done in 0 sec. (0 min.)]
+# 2016-10-12 12:31:47 - DEBUG - [End  ] - [message] - [Done in 0 sec. (0 min.)]
 ```
 
 It evaluates an expression in calling environment. Uses pipe operator ```%<%``` which is inspired by pipe operators family introduced in [magrittr](https://github.com/smbache/magrittr) package. It allows nested calls. The call below will output execution time for all tree blocks
@@ -40,10 +43,10 @@ log_time('message', level = 'DEBUG') %<% {
 }
 # 2016-10-12 12:34:06 - DEBUG - [Start] - [message]
 #  2016-10-12 12:34:06 - DEBUG - [Start] - [sub_message_1]
-#  2016-10-12 12:34:06 - DEBUG - [End] - [sub_message_1] - [Done in 0 sec. (0 min.)]
+#  2016-10-12 12:34:06 - DEBUG - [End  ] - [sub_message_1] - [Done in 0 sec. (0 min.)]
 #  2016-10-12 12:34:06 - WARNING - [Start] - [sub_message_2]
-#  2016-10-12 12:34:06 - WARNING - [End] - [sub_message_2] - [Done in 0 sec. (0 min.)]
-# 2016-10-12 12:34:06 - DEBUG - [End] - [message] - [Done in 0 sec. (0 min.)]
+#  2016-10-12 12:34:06 - WARNING - [End  ] - [sub_message_2] - [Done in 0 sec. (0 min.)]
+# 2016-10-12 12:34:06 - DEBUG - [End  ] - [message] - [Done in 0 sec. (0 min.)]
 ```
 
 By default it has level DEBUG but the package supports DEBUG, INFO, WARNING and  ERROR levels.
@@ -97,12 +100,12 @@ log_time ('Generate random numbers') %<% {
 }
 # 2016-10-12 12:45:29 - DEBUG - [Start] - [Generate random numbers]
 #  2016-10-12 12:45:29 - DEBUG - [Start] - [Set 1]
-#  2016-10-12 12:45:32 - DEBUG - [End] - [Set 1] - [Done in 2.8 sec. (0 min.)]
+#  2016-10-12 12:45:32 - DEBUG - [End  ] - [Set 1] - [Done in 2.8 sec. (0 min.)]
 #  2016-10-12 12:45:32 - DEBUG - [Start] - [Set 2]
-#  2016-10-12 12:45:34 - DEBUG - [End] - [Set 2] - [Done in 1.8 sec. (0 min.)]
+#  2016-10-12 12:45:34 - DEBUG - [End  ] - [Set 2] - [Done in 1.8 sec. (0 min.)]
 #  2016-10-12 12:45:34 - DEBUG - [Start] - [Set 3]
-#  2016-10-12 12:45:36 - DEBUG - [End] - [Set 3] - [Done in 1.9 sec. (0 min.)]
-# 2016-10-12 12:45:36 - DEBUG - [End] - [Generate random numbers] -
+#  2016-10-12 12:45:36 - DEBUG - [End  ] - [Set 3] - [Done in 1.9 sec. (0 min.)]
+# 2016-10-12 12:45:36 - DEBUG - [End  ] - [Generate random numbers] -
 [Done in 6.4 sec. (0.1 min.)]
 ```
 
@@ -130,7 +133,7 @@ clean_data_logger$log_time ('Data cleaning step X') %<% {
 }
 # this logs go to clean_data.log file:
 # 2016-10-12 12:48:50 - [clean_data] - INFO - [Start] - [Data cleaning step X]
-# 2016-10-12 12:48:50 - [clean_data] - INFO - [End] - [Data cleaning step X] - [Done in 0 sec. (0 min.)]
+# 2016-10-12 12:48:50 - [clean_data] - INFO - [End  ] - [Data cleaning step X] - [Done in 0 sec. (0 min.)]
 ```
 
 The code above writes logs to *clean_data.log* file with logging level INFO.
