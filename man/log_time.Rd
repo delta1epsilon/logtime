@@ -36,7 +36,7 @@ log_time('Some text') \%<\% {
 }
 # output:
 # 2016-09-21 10:54:31 - DEBUG - [Start] - [Some text]
-# 2016-09-21 10:54:32 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+# 2016-09-21 10:54:32 - DEBUG - [End  ] - [Some text] - [Done in 1 sec. (0 min.)]
 
 
 # create the same logtime with changed level to INFO
@@ -45,7 +45,7 @@ log_time('Some text', level = 'INFO') \%<\% {
 }
 # output:
 # 2016-09-21 10:53:20 - INFO - [Start] - [Some text]
-# 2016-09-21 10:53:21 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+# 2016-09-21 10:53:21 - INFO - [End  ] - [Some text] - [Done in 1 sec. (0 min.)]
 
 }
 \seealso{

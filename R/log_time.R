@@ -82,7 +82,7 @@ on_end <- function (msg, level = NULL, ...) {
 #' }
 #' # output:
 #' # 2016-09-21 10:54:31 - DEBUG - [Start] - [Some text]
-#' # 2016-09-21 10:54:32 - DEBUG - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+#' # 2016-09-21 10:54:32 - DEBUG - [End  ] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #'
 #' # create the same logtime with changed level to INFO
@@ -91,7 +91,7 @@ on_end <- function (msg, level = NULL, ...) {
 #' }
 #' # output:
 #' # 2016-09-21 10:53:20 - INFO - [Start] - [Some text]
-#' # 2016-09-21 10:53:21 - INFO - [End] - [Some text] - [Done in 1 sec. (0 min.)]
+#' # 2016-09-21 10:53:21 - INFO - [End  ] - [Some text] - [Done in 1 sec. (0 min.)]
 #'
 #' @export
 log_time <- create_log_time(start = on_start, end = on_end)

@@ -24,3 +24,27 @@ configure_logging <- function (threshold_level = 'DEBUG', output_file = '') {
     set_logging_level(level = threshold_level)
     set_logging_file(file = output_file)
 }
+
+
+#' Get logging configs
+#'
+#' Get logging configs which were set in \code{configure_logging}
+#' 
+#' @seealso \code{\link{configure_logging}}
+#'
+#' @examples
+#' 
+#' # get logging configs
+#' get_configs()
+#' # Threshold Logging Level:  DEBUG
+#' # Output Logging File:  NA (Print to console) 
+#'
+#' @export
+get_configs <- function () {
+    cat('Threshold Logging Level: ', get_logging_level(), '\n')
+
+    file <- get_logging_file()
+    message <- ifelse(file != '', file, 'NA (Print to console)')
+    
+    cat('Output Logging File: ', message, '\n')
+}

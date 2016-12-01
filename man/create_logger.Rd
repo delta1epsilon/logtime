@@ -52,10 +52,10 @@ logger$log_time('Cleaning') \%<\% {
 }
 # 2016-10-02 23:17:16 - [clean_data] - INFO - [Start] - [Cleaning]
 #  2016-10-02 23:17:16 - [clean_data] - INFO - [Start] - [Removing NA]
-#  2016-10-02 23:17:16 - [clean_data] - INFO - [End] - [Removing NA] - [Done in 0.5 sec. (0 min.)]
+#  2016-10-02 23:17:16 - [clean_data] - INFO - [End  ] - [Removing NA] - [Done in 0.5 sec. (0 min.)]
 #  2016-10-02 23:17:16 - [clean_data] - INFO - [Start] - [Transforming]
-#  2016-10-02 23:17:17 - [clean_data] - INFO - [End] - [Transforming] - [Done in 1 sec. (0 min.)]
-# 2016-10-02 23:17:17 - [clean_data] - INFO - [End] - [Cleaning] - [Done in 1.5 sec. (0 min.)]
+#  2016-10-02 23:17:17 - [clean_data] - INFO - [End  ] - [Transforming] - [Done in 1 sec. (0 min.)]
+# 2016-10-02 23:17:17 - [clean_data] - INFO - [End  ] - [Cleaning] - [Done in 1.5 sec. (0 min.)]
 }
 \seealso{
 \code{\link{configure_logging}}, \code{\link{log_time}}, \code{\link{log_message}}
