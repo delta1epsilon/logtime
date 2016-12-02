@@ -3,6 +3,6 @@
 export("%<%")
 export(configure_logging)
 export(create_logger)
-export(get_configs)
+export(get_logging_configs)
 export(log_message)
 export(log_time)

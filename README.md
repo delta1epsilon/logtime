@@ -13,7 +13,7 @@ logtime: R package for logging and timing
 
 The idea of the package was inspired by function *logtime* from python library called [dslib](https://github.com/itdxer/dslib).
 
-logtime package consists of just five functions *log_time*, *log_message*, *create_logger*, *configure_logging* and *get_configs*. The functions names are self-explaining.
+logtime package consists of just five functions *log_time*, *log_message*, *create_logger*, *configure_logging* and *get_logging_configs*. The functions names are self-explaining.
 
 ### `log_time`
 
