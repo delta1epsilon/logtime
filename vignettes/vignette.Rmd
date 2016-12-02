@@ -15,21 +15,21 @@ library(logtime)
 
 ## Intro
 
-Stick with R for a while a the chance is that R falls into a tool set for everyday use. R is great for the interactive work, although to produce "production" script sometimes is a bit of pain. Besides, everyone can develop his own "dialect" by writing the same stuff in a variety of ways. While logging is out-of-the-shell for most programming languages, it is not the case with R. When R was developed one of then mission was to empower non-programmer with the tool for more flexible advanced computation than excel and, after some time, to help them to transition to be better developers. But that was a while ago. Now R becomes very powerful language that most of the business and developers speak. And a huge number of great packages that from version to version become faster and prettier. As R matures, it becomes obvious that there is a place for logging script. 
+Stick with R for a while and the chance is that R will fall into a tool set for everyday use. R is great for interactive work, however to produce "production" script sometimes is a bit of pain. Everyone can develop their own "dialect" by writing the same things in a variety of ways. While logging is out-of-the-shell for most programming languages, it is not the case with R. When R was developed one of the missions was to empower a non-programmer with the tool for more flexible and advanced computation than excel and, after some time, to help them to make the transition in order to be improved developer. But that was some time ago. Now R becomes a very powerful language that most of the businesses and developers commonly speak. And a huge number of great packages impresses. As R matures, it becomes obvious that there is a place for logging script. 
 
-There are four packages that enables logging in R that are mainly inspired by best logging practices such as log4j or Python's logging:
+There are four packages that enable logging in R that are mainly inspired by the best logging practices such as log4j or Python's logging:
 
 * futile.logger (created at 2016)
 
 * luzlogr by Ben Bond-Lamberty (created at 2016) https://cran.r-project.org/web/packages/luzlogr/vignettes/intro-luzlogr.html
 
-* logging (log4j-like, not maintaining since 2013)
+* logging (log4j-like, not maintained since 2013)
 
-* log4r (log4j-like, not maintaining since 2014)
+* log4r (log4j-like, not maintained since 2014)
 
-It is interesting to see the gap in dates. There are two packages that both implemented log4j-like logging and are not maintained after 2014. Does it mean that log4j-like looging is not good for R philosophy? Well, maybe, but we think that main reason was that most of R users at were either beginners started to learn to code with R or developers with solid experience with other programming languages. As a time passed by, beginners became more advanced R users who needs more advanced programming facilities. As a result, two more packages enabling logging emerged at 2016. Both inspired by Python - like logging. 
+It is interesting to see a gap in the dates. There are two packages that are both implemented log4j-like logging and are not maintained after 2014. Does it mean that log4j-like looging is not good for R philosophy? Well, maybe, but we think that the main reason was that most of R users were either beginners who started to learn to code with R or developers with solid experience with other programming languages. As a time passed by, beginners became more advanced R users who needed more advanced programming facilities. As a result, two more packages enabling logging emerged in 2016. Both inspired by Python - like logging. 
 
-So how new logtime package is different? 
+So how is a new logtime package different? 
 
 ## Logtime Objectives
 
@@ -39,16 +39,12 @@ So how new logtime package is different?
 
 * to enable flexible logging for production script 
 
-First objective was inspired by magrit and dplyr family packages, where beside a great functionality 
-The other two objectives ... distinguish between interactive and production
-
-- there is no functionality to customise log message. 
 
 ## Logtime Overview
 
-Logtime package consists of for functions ```log_time```, ```log_message```, ```create_logger``` and ```configure_logging```. 
+Logtime package consists of four functions ```log_time```, ```log_message```, ```create_logger``` and ```configure_logging```. 
 
-The core function is ```log_time``` which enables logging and time tracking and which makes code much more readable:
+The core function is ```log_time``` which becides logging and time tracking makes code much more readable:
 
 ```
 log_time(message, level = 'DEBUG') %<% {
@@ -56,18 +52,19 @@ log_time(message, level = 'DEBUG') %<% {
 }
 ```
 
-**log_time** function takes two arguments ```message``` and ```level``` with default to 'DEBUG' and evaluates an expression in calling environment. To link expression and logging parametes it uses custom pipe operator ```%<%```  (which is inspired by pipe operators family introduced in magrit package). 
-Depending on settings configured with ```configure_logging``` the outup can be written to file or printed to console (more on configuraton later). In both cases log format is the same and cannot be changed (in this version of the package).
+**log_time** function takes two arguments, ```message``` and ```level``` with default to 'DEBUG'. The function evaluates an expression in calling environment. To link expression and logging parameters it uses a custom pipe operator ```%<%```  (which is inspired by the pipe operators family introduced in magrit package). 
+
+Depending on settings configured with ```configure_logging``` the outup can be written to file or printed to console (more on configuraton later). In both cases log format is the same and cannot be changed in this version of the package.
 ```
 [Date Time] - [Level] - [Start] - [Message]
 [Date Time] - [Level] - [End] - [Message] - [Done in t sec. (x min.)]
 ```
 
-Default level is DEBUG but package also supperts INFO, WARNING and ERROR levels. Levels forms a kind hierarchy of preference: DEBUG < INFO < WARNING < ERROR. The more critical expresion is for us the higher value of the level needs to be assigned (more on that as Configuring Levels section). 
+Default level is DEBUG but package also supperts INFO, WARNING and ERROR levels. Levels form a kind of hierarchy of preferences: DEBUG < INFO < WARNING < ERROR. The more critical the expresion is the higher the value of the level that needs to be assigned (more on that as Configuring Levels section). 
 
-**configure_logging** function takes two arguments *threshold_level* and *output_file*. The *threshold_level* controls which chunks will appear in log output, default to DEBUG. While *level* in ```log_time``` defines expression "rank" threshold_level in defines which level will appear in output. The *output_file* argument controls where log will be printed either console (default) or to file. 
+**configure_logging** function takes two arguments *threshold_level* and *output_file*. The *threshold_level* controls which chunks will appear in log output, default to DEBUG. While *level* in ```log_time``` defines expression "rank" threshold_level in defines which level will appear in output. The *output_file* argument controls whether the log will be printed to console (default) or to file. 
 
-Below is the table which indicates when a log with specific level is printed depending on threshold logging level defined in `configure_logging`.
+Below you will find the table which indicates when a log with a specific level is printed depending on threshold logging level defined in `configure_logging`.
 
 |configure_logging \ log level |DEBUG|INFO |WARNING|ERROR|
 |-------|-----|-----|-------|-----|
@@ -77,16 +74,16 @@ Below is the table which indicates when a log with specific level is printed dep
 |**ERROR**  |0    |0    |0      |1    |
 
 
- **log_message** function takse the same *message* and *level* arguments as ```log_time``` function but simply outputs a message with specified level in format:
+ **log_message** function takes the same *message* and *level* arguments as ```log_time``` function but simply outputs a message with specified level in format:
 ```
 [Date Time] - [Level] - [Message]
 ```
-It is a wrapper to ```cut``` that designed to work the best with ```create_logger``` function. 
+It is a wrapper to ```cut``` and is designed to work with ```create_logger``` function. 
 
- **create_logger** function creates a reference point in loogin context and takes three arguments: *name* - name of logger, *level* one of DEBUG, INFO, WARNING or ERROR and *file* that is where to print logs. If file is spesified it owerwrites output_file in configure_logging. That alows aditional flexibility in log output. 
+ **create_logger** function creates a reference point in login context and takes three arguments: *name* - name of logger, *level* one of DEBUG, INFO, WARNING or ERROR and *file* that is where to print logs. If file is specified it owerwrites output_file in configure_logging. That alows aditional flexibility in log output. 
 
 ## Nested Calls
-The ```log_time``` alows nested calls and in some way generalises ```system.time()```: 
+The ```log_time``` allows nested calls and in some way generalises ```system.time()```: 
 
 ```{r, out.width=12}
 log_time('Random Numbers Generation') %<% {
@@ -101,22 +98,22 @@ log_time('Random Numbers Generation') %<% {
 }
 ```
 
-Notice that the ```rexp(10000000)``` inside "Exponential" log_time chunk was evaluated but not printed out. This behaviour is crusial when use log_time inside loop or apply family fuctions, we need to be explisit in terms of assignment the results. Inside "Normal" log chunk we explisintly assigned generated values to variable "x" and this variable exists in calling environment:
+Notice that the ```rexp(10000000)``` inside "Exponential" log_time chunk was evaluated but not printed out. This behaviour is crucial when using log_time inside loop or apply family functions. We need to be explicit in terms of assigning the results. Inside "Normal" log chunk we explicitly assigned generated values to variable "x" and this variable exists in the calling environment:
 
 ```{r}
 "x" %in% ls()
 ```
 
 ## Configure Levels
-Another noticable difference is the 'Random Numbers Generation' log_time call is levels values. For "Normal" log time chunk level is DEBUG (default) and for "Exponential" level is WARNING. Those levels in combination with threshold level set inside ```configure_logging``` function determines what will be shown in log output.
+Retuning to previous example, another noticable difference is the 'Random Numbers Generation' log_time call is levels values. For "Normal" log time chunk level is DEBUG (default) and for "Exponential" level is WARNING. These levels in combination with the threshold level set inside ```configure_logging``` function determines what will be shown in the log output.
 
-Imagine that at some point, we are interested only to log chuks with WARNING level. And to shut down the output for log_time chunks with DEBUG or INFO levels we can set threshold level to WARNING:
+Imagine, that at some point we are interested only to log all chunks with a WARNING level. And to shut down the output for log_time chunks with DEBUG or INFO levels we can set a threshold level inside configure_logging to WARNING:
 
 ```{r}
 configure_logging(threshold_level = "WARNING")
 ```
 
-When run Random Numbers Generation log time chunk, this time only "Exponential" chunk will show up in the output
+When run 'Random Numbers Generation' log time chunk, at this time only 'Exponential' chunk will show up in the output
 ```{r, echo=FALSE}
 log_time('Random Numbers Generation') %<% {
     
@@ -132,7 +129,7 @@ log_time('Random Numbers Generation') %<% {
 ```
 
 
-What can be frustrating in above output is that we lost logging message "Random Numbers Generation" that gives a good context in this case. So when having a nested log_time calls like one described, it is a good idea to set level for parent log_time chank to be the highest level among it's sub chunks. For our example we need to set level = WARNNIG to 'Random Numbers Generation' log_time chunk in orde not to loose context of nested calls:
+What can be frustrating in the above output is that we lose a logging message "Random Numbers Generation" which gave us a good context. So, when having a nested log_time calls like one described, it is a good idea to set a level for a parent log_time chunk to be the highest level among it's sub chunks. For our example, in oder not to lose a context,  we can set level = WARNING inside the 'Random Numbers Generation' chunk: 
 
 ```{r}
 log_time('Random Numbers Generation', level = "WARNING") %<% {
@@ -148,38 +145,104 @@ log_time('Random Numbers Generation', level = "WARNING") %<% {
 }
 ```
 
-
-
 ##Inside Loop
 
-```{r eval=F, }
-configure_logging(threshold_level = "DEBUG")
-x <- numeric(3)
+### Example with error
+Consider toy example where there is an error at a secont iteration. Before we run the script, we need to make sure the  threshold level is configured according to the level inside log_time function. Let us set it to DEBUG. 
 
+```{r}
+configure_logging(threshold_level = "DEBUG")
+```
+
+
+```{r eval=F}
+x <- numeric(3)
 for(i in 1:3) {
     msg <- paste0("iter ", i)
     log_time(msg) %<% {
-        if (i %% 2 == 0) {
-            x[i] <- v
+       if (i %% 2 == 0) {
+            x[i] <- v # v is unnown and loop will stop at second iteration
         } else {
             x[i] <- runif(1)
             Sys.sleep(x[i])
-        }
+        } 
     }
 }
 
 ```
 
+When we run above script we will get following output:
 ```
-           2016-11-20 17:49:11 - DEBUG - [Start] - [iter 1]
-           2016-11-20 17:49:12 - DEBUG - [End] - [iter 1] - [Done in 0.7 sec. (0 min.)]
-           2016-11-20 17:49:12 - DEBUG - [Start] - [iter 2]
+ 2016-11-20 17:49:11 - DEBUG - [Start] - [iter 1]
+ 2016-11-20 17:49:12 - DEBUG - [End] - [iter 1] - [Done in 0.7 sec. (0 min.)]
+ 2016-11-20 17:49:12 - DEBUG - [Start] - [iter 2]
 
 Error in eval(expr, envir, enclos) : object 'v' not found
 ```
+Which is nice since we got an idea at which step our loop crashes. Well, if we dont want loop to stop when crashes we can use trycatch concept or we can use *safely* function from ```purrr``` package.
+Lets write a simple function for logging iterations: 
 
-##Create Logger
+```{r}
+log_iter <- function(iter, FUN, ...) {
+    msg <- paste0("Iter ", iter)
+    log_time(msg) %<% {
+       z <- FUN(iter, ...)
+    }
+    return(z)
+}
 
-when usefull
-example 
+log_iter_safe <- purrr::safely(log_iter)
 
+```
+
+log_iter function takes two arguments iter and FUN. Adtional parameters to pass to FUN goes in ... .One requrement to FUN is that it need to have iter as first paramenter. 
+
+Consider toy example described above and lets wrap calculation at some iteration into a function:
+```{r}
+f <- function(i, v) {
+     if (i %% 2 == 0) {
+            z <- v
+        } else {
+            z <- runif(1)
+            Sys.sleep(z)
+        }
+    return(z)
+}
+```
+
+
+```{r}
+log_iter(1, f)
+```
+
+When argument v in function f is not set we'll get an error. Lets examine output with using log_iter_safely:
+```{r}
+x <- list()
+
+for(i in 1:3) {
+   x <- append(x, log_iter_safe(i, FUN = f))
+}
+
+x
+```
+
+
+```{r}
+sapply(1:3, log_iter_safe, f, v = 1)
+```
+### Lgging Foreach loop
+
+```{r}
+suppressPackageStartupMessages(library(foreach))
+
+x <- foreach(i = 1:3) %do% {
+    log_iter_safe(i, f, v)
+}
+
+```
+
+```{r}
+lapply(x, `[[`, "result")
+```
+
+=
