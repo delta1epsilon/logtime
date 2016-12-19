@@ -12,7 +12,7 @@
 
 <meta name="author" content="Ihor Kovalyshyn, Andriy Muzychuk" />
 
-<meta name="date" content="2016-09-25" />
+<meta name="date" content="2016-12-19" />
 
 <title>logtime: R package for logging and timing</title>
 
@@ -70,64 +70,265 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">logtime: R package for logging and timing</h1>
 <h4 class="author"><em>Ihor Kovalyshyn, Andriy Muzychuk</em></h4>
-<h4 class="date"><em>2016-09-25</em></h4>
+<h4 class="date"><em>2016-12-19</em></h4>
 
 
 
-<p>In this article I would like to walk you through the main usecases of <strong>logtime</strong> package.</p>
-<div id="log_time" class="section level2">
-<h2>log_time</h2>
-<p><code>log_time</code> provides you with possibility of simple and efficient logging and timing of your code.</p>
-<p><code>log_time</code> usage is</p>
+<div id="intro" class="section level2">
+<h2>Intro</h2>
+<p>Stick with R for a while and the chance is that R will fall into a tool set for everyday use. R is great for interactive work, however to produce “production” script sometimes is a bit of pain. Everyone can develop their own “dialect” by writing the same things in a variety of ways. While logging is out-of-the-shell for most programming languages, it is not the case with R. When R was developed one of the missions was to empower a non-programmer with the tool for more flexible and advanced computation than excel and, after some time, to help them to make the transition in order to be improved developer. But that was some time ago. Now R becomes a very powerful language that most of the businesses and developers commonly speak. And a huge number of great packages impresses. As R matures, it becomes obvious that there is a place for logging script.</p>
+<p>There are four packages that enable logging in R that are mainly inspired by the best logging practices such as log4j or Python’s logging:</p>
+<ul>
+<li><p>futile.logger (created at 2016)</p></li>
+<li><p>luzlogr by Ben Bond-Lamberty (created at 2016) <a href="https://cran.r-project.org/web/packages/luzlogr/vignettes/intro-luzlogr.html" class="uri">https://cran.r-project.org/web/packages/luzlogr/vignettes/intro-luzlogr.html</a></p></li>
+<li><p>logging (log4j-like, not maintained since 2013)</p></li>
+<li><p>log4r (log4j-like, not maintained since 2014)</p></li>
+</ul>
+<p>It is interesting to see a gap in the dates. There are two packages that are both implemented log4j-like logging and are not maintained after 2014. Does it mean that log4j-like looging is not good for R philosophy? Well, maybe, but we think that the main reason was that most of R users were either beginners who started to learn to code with R or developers with solid experience with other programming languages. As a time passed by, beginners became more advanced R users who needed more advanced programming facilities. As a result, two more packages enabling logging emerged in 2016. Both inspired by Python - like logging.</p>
+<p>So how is a new logtime package different?</p>
+</div>
+<div id="logtime-objectives" class="section level2">
+<h2>Logtime Objectives</h2>
+<ul>
+<li><p>to make code much more readable (despite the select framework)</p></li>
+<li><p>to enable logging &amp; execution time tracking during interactive analysis</p></li>
+<li><p>to enable flexible logging for production script</p></li>
+</ul>
+</div>
+<div id="logtime-overview" class="section level2">
+<h2>Logtime Overview</h2>
+<p>Logtime package consists of four functions <code>log_time</code>, <code>log_message</code>, <code>create_logger</code> and <code>configure_logging</code>.</p>
+<p>The core function is <code>log_time</code> which becides logging and time tracking makes code much more readable:</p>
 <pre><code>log_time(message, level = 'DEBUG') %&lt;% {
    expression
 }</code></pre>
-<p>Let’s say I would like to logtime generating of random numbers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log_time</span> (<span class="st">'Generate random numbers'</span>) %&lt;%<span class="st"> </span>{
-    norm_dist_random_numbers &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000000</span>)
-    exp_dist_random_numbers &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">10000000</span>)    
-    pois_dist_random_numbers &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">10000000</span>, <span class="dt">lambda =</span> <span class="dv">1</span>)
+<p><strong>log_time</strong> function takes two arguments, <code>message</code> and <code>level</code> with default to ‘DEBUG’. The function evaluates an expression in calling environment. To link expression and logging parameters it uses a custom pipe operator <code>%&lt;%</code> (which is inspired by the pipe operators family introduced in magrit package).</p>
+<p>Depending on settings configured with <code>configure_logging</code> the outup can be written to file or printed to console (more on configuraton later). In both cases log format is the same and cannot be changed in this version of the package.</p>
+<pre><code>[Date Time] - [Level] - [Start] - [Message]
+[Date Time] - [Level] - [End] - [Message] - [Done in t sec. (x min.)]</code></pre>
+<p>Default level is DEBUG but package also supperts INFO, WARNING and ERROR levels. Levels form a kind of hierarchy of preferences: DEBUG &lt; INFO &lt; WARNING &lt; ERROR. The more critical the expresion is the higher the value of the level that needs to be assigned (more on that as Configuring Levels section).</p>
+<p><strong>configure_logging</strong> function takes two arguments <em>threshold_level</em> and <em>output_file</em>. The <em>threshold_level</em> controls which chunks will appear in log output, default to DEBUG. While <em>level</em> in <code>log_time</code> defines expression “rank” threshold_level in defines which level will appear in output. The <em>output_file</em> argument controls whether the log will be printed to console (default) or to file.</p>
+<p>Below you will find the table which indicates when a log with a specific level is printed depending on threshold logging level defined in <code>configure_logging</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">configure_logging  log level</th>
+<th align="left">DEBUG</th>
+<th align="left">INFO</th>
+<th align="left">WARNING</th>
+<th align="left">ERROR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>DEBUG</strong></td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>INFO</strong></td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>WARNING</strong></td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>ERROR</strong></td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">0</td>
+<td align="left">1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>log_message</strong> function takes the same <em>message</em> and <em>level</em> arguments as <code>log_time</code> function but simply outputs a message with specified level in format:</p>
+<pre><code>[Date Time] - [Level] - [Message]</code></pre>
+<p>It is a wrapper to <code>cut</code> and is designed to work with <code>create_logger</code> function.</p>
+<p><strong>create_logger</strong> function creates a reference point in login context and takes three arguments: <em>name</em> - name of logger, <em>level</em> one of DEBUG, INFO, WARNING or ERROR and <em>file</em> that is where to print logs. If file is specified it owerwrites output_file in configure_logging. That alows aditional flexibility in log output.</p>
+</div>
+<div id="nested-calls" class="section level2">
+<h2>Nested Calls</h2>
+<p>The <code>log_time</code> allows nested calls and in some way generalises <code>system.time()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log_time</span>(<span class="st">'Random Numbers Generation'</span>) %&lt;%<span class="st"> </span>{
+    
+    <span class="kw">log_time</span>(<span class="st">&quot;Normal&quot;</span>) %&lt;%<span class="st"> </span>{
+        x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000000</span>)
+    }
+    
+    <span class="kw">log_time</span>(<span class="st">&quot;Exponential&quot;</span>, <span class="dt">level =</span> <span class="st">&quot;WARNING&quot;</span>) %&lt;%<span class="st"> </span>{
+        <span class="kw">rexp</span>(<span class="dv">10000000</span>) 
+    }
 }</code></pre></div>
-<pre><code>## 2016-09-25 13:21:06.6 - DEBUG - [Start] - [Generate random numbers]
-## 2016-09-25 13:21:11.6 - DEBUG - [End] - [Generate random numbers] - 
-## [Done in 5 sec. (0.1 min.)]</code></pre>
-<p><code>log_time</code> evaluates an expression in calling environment.</p>
-<p><code>log_time</code> uses pipe operator <code>%&lt;%</code> what makes the code beautiful and readable.</p>
-<p>By default it has level DEBUG but the package supports DEBUG, INFO, WARNING and ERROR levels.</p>
+<pre><code>## 2016-12-19 18:19:02 - DEBUG - [Start] - [Random Numbers Generation]
+##  2016-12-19 18:19:02 - DEBUG - [Start] - [Normal]
+##  2016-12-19 18:19:06 - DEBUG - [End  ] - [Normal] - 
+## [Done in 4.1 sec. (0.1 min.)]
+##  2016-12-19 18:19:06 - WARNING - [Start] - [Exponential]
+##  2016-12-19 18:19:08 - WARNING - [End  ] - [Exponential] - 
+## [Done in 2.3 sec. (0 min.)]
+## 2016-12-19 18:19:08 - DEBUG - [End  ] - [Random Numbers Generation] - 
+## [Done in 6.4 sec. (0.1 min.)]</code></pre>
+<p>Notice that the <code>rexp(10000000)</code> inside “Exponential” log_time chunk was evaluated but not printed out. This behaviour is crucial when using log_time inside loop or apply family functions. We need to be explicit in terms of assigning the results. Inside “Normal” log chunk we explicitly assigned generated values to variable “x” and this variable exists in the calling environment:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;x&quot;</span> %in%<span class="st"> </span><span class="kw">ls</span>()</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
 </div>
-<div id="log_message" class="section level2">
-<h2>log_message</h2>
-<p><code>log_message</code> just prints a log with specified logging level. The usage is</p>
-<pre><code>log_message(message, level = 'DEBUG')</code></pre>
-<p>So, let’s create a log which tells that data frame is empty.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log_message</span>(<span class="st">'The data frame is empty'</span>, <span class="dt">level =</span> <span class="st">'WARNING'</span>)</code></pre></div>
-<pre><code>## 2016-09-25 13:21:11.6 - WARNING - [The data frame is empty]</code></pre>
-</div>
-<div id="create_logger" class="section level2">
-<h2>create_logger</h2>
-<p>Also the package gives you opportunity to create your own loggers with specific logging level and file for writing logs to. The logger has <code>log_time</code> and <code>log_message</code> attributes.</p>
-<p>Let’s create a logger called <em>clean_data</em> with default level INFO which will write all the logs to file <em>clean_data.log</em>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data_logger &lt;-<span class="st"> </span><span class="kw">create_logger</span>(<span class="dt">name =</span> <span class="st">'clean_data'</span>, 
-                                   <span class="dt">level =</span> <span class="st">'INFO'</span>, 
-                                   <span class="dt">file =</span> <span class="st">'clean_data.log'</span>
-                                   )</code></pre></div>
-<p>And let’s logtime some process in data cleaning procedure.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data_logger$<span class="kw">log_time</span> (<span class="st">'Data cleaning step X'</span>) %&lt;%<span class="st"> </span>{
-    <span class="co"># some code</span>
+<div id="configure-levels" class="section level2">
+<h2>Configure Levels</h2>
+<p>Retuning to previous example, another noticable difference is the ‘Random Numbers Generation’ log_time call is levels values. For “Normal” log time chunk level is DEBUG (default) and for “Exponential” level is WARNING. These levels in combination with the threshold level set inside <code>configure_logging</code> function determines what will be shown in the log output.</p>
+<p>Imagine, that at some point we are interested only to log all chunks with a WARNING level. And to shut down the output for log_time chunks with DEBUG or INFO levels we can set a threshold level inside configure_logging to WARNING:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">configure_logging</span>(<span class="dt">threshold_level =</span> <span class="st">&quot;WARNING&quot;</span>)</code></pre></div>
+<p>When run ‘Random Numbers Generation’ log time chunk, at this time only ‘Exponential’ chunk will show up in the output</p>
+<pre><code>##  2016-12-19 18:19:13 - WARNING - [Start] - [Exponential]
+##  2016-12-19 18:19:15 - WARNING - [End  ] - [Exponential] - 
+## [Done in 2.4 sec. (0 min.)]</code></pre>
+<p>What can be frustrating in the above output is that we lose a logging message “Random Numbers Generation” which gave us a good context. So, when having a nested log_time calls like one described, it is a good idea to set a level for a parent log_time chunk to be the highest level among it’s sub chunks. For our example, in oder not to lose a context, we can set level = WARNING inside the ‘Random Numbers Generation’ chunk:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log_time</span>(<span class="st">'Random Numbers Generation'</span>, <span class="dt">level =</span> <span class="st">&quot;WARNING&quot;</span>) %&lt;%<span class="st"> </span>{
+    
+    <span class="kw">log_time</span>(<span class="st">&quot;Normal&quot;</span>) %&lt;%<span class="st"> </span>{
+        x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000000</span>)
+    }
+    
+    <span class="kw">log_time</span>(<span class="st">&quot;Exponential&quot;</span>, <span class="dt">level =</span> <span class="st">&quot;WARNING&quot;</span>) %&lt;%<span class="st"> </span>{
+        <span class="kw">rexp</span>(<span class="dv">10000000</span>)  
+    }
+    
 }</code></pre></div>
-<p>The code above writes logs to <em>clean_data.log</em> file with logging level INFO. By default the logger’s <code>log_time</code> and <code>log_message</code> have level INFO and can be changed.</p>
-<p>Now let’s create simple log with changed level to ERROR.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_data_logger$<span class="kw">log_message</span>(<span class="st">'Something awful happened'</span>, <span class="dt">level =</span> <span class="st">'ERROR'</span>)</code></pre></div>
+<pre><code>## 2016-12-19 18:19:15 - WARNING - [Start] - [Random Numbers Generation]
+##  2016-12-19 18:19:20 - WARNING - [Start] - [Exponential]
+##  2016-12-19 18:19:22 - WARNING - [End  ] - [Exponential] - 
+## [Done in 2.4 sec. (0 min.)]
+## 2016-12-19 18:19:22 - WARNING - [End  ] - [Random Numbers Generation] - 
+## [Done in 6.7 sec. (0.1 min.)]</code></pre>
 </div>
-<div id="configure_logging" class="section level2">
-<h2>configure_logging</h2>
-<p>Last but not least there is <code>configure_logging</code> option in the package which sets threshold for printing logs and sets file for writing logs to.</p>
-<p>The usage is:</p>
-<pre><code>configure_logging(threshold_level = &quot;DEBUG&quot;, output_file = &quot;&quot;)</code></pre>
-<p>So, to set the package for printing only logs with levels INFO and higher (namely INFO, WARNING and ERROR) we write:</p>
-<pre><code>configure_logging(threshold_level = 'INFO')</code></pre>
-<p>To set the package for printing logs to <em>log.log</em> file with levels WARNING and higher we write:</p>
-<pre><code>configure_logging(threshold_level = 'WARNING', output_file = 'log.log')</code></pre>
+<div id="inside-loop" class="section level2">
+<h2>Inside Loop</h2>
+<div id="example-with-error" class="section level3">
+<h3>Example with error</h3>
+<p>Consider toy example where there is an error at a secont iteration. Before we run the script, we need to make sure the threshold level is configured according to the level inside log_time function. Let us set it to DEBUG.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">configure_logging</span>(<span class="dt">threshold_level =</span> <span class="st">&quot;DEBUG&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dv">3</span>)
+for(i in <span class="dv">1</span>:<span class="dv">3</span>) {
+    msg &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;iter &quot;</span>, i)
+    <span class="kw">log_time</span>(msg) %&lt;%<span class="st"> </span>{
+       if (i %%<span class="st"> </span><span class="dv">2</span> ==<span class="st"> </span><span class="dv">0</span>) {
+            x[i] &lt;-<span class="st"> </span>v <span class="co"># v is unnown and loop will stop at second iteration</span>
+        } else {
+            x[i] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)
+            <span class="kw">Sys.sleep</span>(x[i])
+        } 
+    }
+}</code></pre></div>
+<p>When we run above script we will get following output:</p>
+<pre><code> 2016-11-20 17:49:11 - DEBUG - [Start] - [iter 1]
+ 2016-11-20 17:49:12 - DEBUG - [End] - [iter 1] - [Done in 0.7 sec. (0 min.)]
+ 2016-11-20 17:49:12 - DEBUG - [Start] - [iter 2]
+
+Error in eval(expr, envir, enclos) : object 'v' not found</code></pre>
+<p>Which is nice since we got an idea at which step our loop crashes. Well, if we dont want loop to stop when crashes we can use trycatch concept or we can use <em>safely</em> function from <code>purrr</code> package. Lets write a simple function for logging iterations:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">log_iter &lt;-<span class="st"> </span>function(iter, FUN, ...) {
+    msg &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;Iter &quot;</span>, iter)
+    <span class="kw">log_time</span>(msg) %&lt;%<span class="st"> </span>{
+       z &lt;-<span class="st"> </span><span class="kw">FUN</span>(iter, ...)
+    }
+    <span class="kw">return</span>(z)
+}
+
+log_iter_safe &lt;-<span class="st"> </span>purrr::<span class="kw">safely</span>(log_iter)</code></pre></div>
+<p>log_iter function takes two arguments iter and FUN. Adtional parameters to pass to FUN goes in … .One requrement to FUN is that it need to have iter as first paramenter.</p>
+<p>Consider toy example described above and lets wrap calculation at some iteration into a function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(i, v) {
+     if (i %%<span class="st"> </span><span class="dv">2</span> ==<span class="st"> </span><span class="dv">0</span>) {
+            z &lt;-<span class="st"> </span>v
+        } else {
+            z &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>)
+            <span class="kw">Sys.sleep</span>(z)
+        }
+    <span class="kw">return</span>(z)
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">log_iter</span>(<span class="dv">1</span>, f)</code></pre></div>
+<pre><code>## 2016-12-19 18:19:22 - DEBUG - [Start] - [Iter 1]
+## 2016-12-19 18:19:23 - DEBUG - [End  ] - [Iter 1] - 
+## [Done in 0.7 sec. (0 min.)]</code></pre>
+<pre><code>## [1] 0.6524234</code></pre>
+<p>When argument v in function f is not set we’ll get an error. Lets examine output with using log_iter_safely:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>()
+
+for(i in <span class="dv">1</span>:<span class="dv">3</span>) {
+   x &lt;-<span class="st"> </span><span class="kw">append</span>(x, <span class="kw">log_iter_safe</span>(i, <span class="dt">FUN =</span> f))
+}</code></pre></div>
+<pre><code>## 2016-12-19 18:19:23 - DEBUG - [Start] - [Iter 1]
+## 2016-12-19 18:19:24 - DEBUG - [End  ] - [Iter 1] - 
+## [Done in 0.8 sec. (0 min.)]
+## 2016-12-19 18:19:24 - DEBUG - [Start] - [Iter 2]
+## 2016-12-19 18:19:24 - DEBUG - [Start] - [Iter 3]
+## 2016-12-19 18:19:25 - DEBUG - [End  ] - [Iter 3] - 
+## [Done in 0.9 sec. (0 min.)]</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x</code></pre></div>
+<pre><code>## $result
+## [1] 0.8029473
+## 
+## $error
+## NULL
+## 
+## $result
+## NULL
+## 
+## $error
+## &lt;simpleError in FUN(iter, ...): argument &quot;v&quot; is missing, with no default&gt;
+## 
+## $result
+## [1] 0.923152
+## 
+## $error
+## NULL</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sapply</span>(<span class="dv">1</span>:<span class="dv">3</span>, log_iter_safe, f, <span class="dt">v =</span> <span class="dv">1</span>)</code></pre></div>
+<pre><code>## 2016-12-19 18:19:25 - DEBUG - [Start] - [Iter 1]
+## 2016-12-19 18:19:25 - DEBUG - [End  ] - [Iter 1] - 
+## [Done in 0.6 sec. (0 min.)]
+## 2016-12-19 18:19:25 - DEBUG - [Start] - [Iter 2]
+## 2016-12-19 18:19:25 - DEBUG - [End  ] - [Iter 2] - 
+## [Done in 0 sec. (0 min.)]
+## 2016-12-19 18:19:25 - DEBUG - [Start] - [Iter 3]
+## 2016-12-19 18:19:26 - DEBUG - [End  ] - [Iter 3] - 
+## [Done in 0.8 sec. (0 min.)]</code></pre>
+<pre><code>##        [,1]      [,2] [,3]     
+## result 0.6459977 1    0.8356705
+## error  NULL      NULL NULL</code></pre>
+</div>
+<div id="lgging-foreach-loop" class="section level3">
+<h3>Lgging Foreach loop</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(foreach))
+
+x &lt;-<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span>:<span class="dv">3</span>) %do%<span class="st"> </span>{
+    <span class="kw">log_iter_safe</span>(i, f, v)
+}</code></pre></div>
+<pre><code>## 2016-12-19 18:19:27 - DEBUG - [Start] - [Iter 1]
+## 2016-12-19 18:19:27 - DEBUG - [End  ] - [Iter 1] - 
+## [Done in 0.9 sec. (0 min.)]
+## 2016-12-19 18:19:27 - DEBUG - [Start] - [Iter 2]
+## 2016-12-19 18:19:27 - DEBUG - [Start] - [Iter 3]
+## 2016-12-19 18:19:28 - DEBUG - [End  ] - [Iter 3] - 
+## [Done in 0.4 sec. (0 min.)]</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lapply</span>(x, <span class="st">`</span><span class="dt">[[</span><span class="st">`</span>, <span class="st">&quot;result&quot;</span>)</code></pre></div>
+<pre><code>## [[1]]
+## [1] 0.8497505
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## [1] 0.4213506</code></pre>
+<p>=</p>
+</div>
 </div>
 
 

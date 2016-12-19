@@ -8,3 +8,5 @@ package_diagram.png
 package_diagram.xml
 inst/doc
 *.DS_Store
+vignettes/*.R
+vignettes/*.html
