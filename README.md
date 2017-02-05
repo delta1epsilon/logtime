@@ -8,6 +8,12 @@ logtime: R package for logging and timing
 * Makes code much more readable
 * No dependencies on other packages
 
+## Install
+
+```
+devtools::install_github('delta1epsilon/BoxPacking')
+```
+
 ## logtime package overview
 
 
